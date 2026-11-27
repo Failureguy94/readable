@@ -129,6 +129,7 @@ textarea { width: 100%; min-height: 180px; font: 13px/1.5 var(--mono); }
 .rotor button:hover { color: var(--ink); }
 .rotor button[aria-pressed=true] { color: var(--ink); border-bottom-color: var(--ink); }
 #rotor-note { font-size: 14px; margin: 0 0 10px; }
+#listen-help { font-size: 14px; margin: 0 0 12px; }
 ol.transcript { list-style: none; margin: 0; padding: 0; max-height: 600px; overflow: auto; border-top: 1px solid var(--line); }
 ol.transcript li { border-bottom: 1px solid var(--line); }
 ol.transcript button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 64px 1fr; gap: 10px; width: 100%; padding: 9px 4px; cursor: pointer; font-size: 15px; line-height: 1.45; color: var(--ink); }
@@ -314,6 +315,8 @@ footer p { margin: 0; }
           <button type="button" class="btn secondary" id="stop" disabled>■ Stop</button>
           <label class="rate">Speed <select id="rate"><option value="0.85">Slow</option><option value="1.05" selected>Normal</option><option value="1.4">Fast</option><option value="1.9">Expert</option></select></label>
         </div>
+        <p class="muted" id="listen-help">Reads the email aloud as a screen reader would, and highlights each part as it's read. Click any line to start from there.</p>
+        <p class="lang-note" id="voice-note" role="status" hidden></p>
         <p class="lang-note" id="lang-note" hidden></p>
         <div class="rotor" role="group" aria-label="Show">
           <button type="button" data-r="all" aria-pressed="true">Everything</button>

@@ -182,7 +182,7 @@ const current = () => data.templates.find((t) => t.slug === state.slug);
 let plainFor = "";
 
 function load() {
-  reader?.stop();
+  stopReading();
   writeHash();
   const t = current();
   const yours = state.slug === "yours";
@@ -284,8 +284,7 @@ transcript.addEventListener("click", (e) => {
   const li = (e.target as HTMLElement).closest<HTMLElement>("li[data-i]");
   if (!li) return;
   const i = +li.dataset.i!;
-  if (Reader.available()) play(i);
-  else mark(i);
+  play(i);
 });
 for (const b of document.querySelectorAll<HTMLButtonElement>(".rotor button"))
   b.addEventListener("click", () => {
@@ -317,24 +316,27 @@ function play(from = 0) {
   reader = new Reader(lines, doc.documentElement.getAttribute("lang") ? doc.documentElement.getAttribute("lang")! : "en");
   reader.rate = +$<HTMLSelectElement>("#rate").value;
   reader.onLine = mark;
-  reader.onEnd = () => {
-    playBtn.disabled = false;
-    stopBtn.disabled = true;
+  reader.onEnd = stopReading;
+  reader.onSilent = (why) => {
+    const note = $("#voice-note");
+    note.textContent =
+      why === "no-speech"
+        ? "This browser can't speak, so Listen shows each part in turn, at the pace a screen reader would say it."
+        : "No sound: your browser has no voice to read with (Chrome on Linux needs speech-dispatcher). Listen shows each part in turn instead, at the pace a screen reader would say it.";
+    note.hidden = false;
   };
   playBtn.disabled = true;
   stopBtn.disabled = false;
-  reader.play(from);
+  void reader.play(from);
 }
-playBtn.addEventListener("click", () => play(0));
-stopBtn.addEventListener("click", () => {
+/** Stops reading, and puts the buttons back: also when the email changes mid-sentence. */
+function stopReading() {
   reader?.stop();
   playBtn.disabled = false;
   stopBtn.disabled = true;
-});
-if (!Reader.available()) {
-  playBtn.disabled = true;
-  playBtn.textContent = "No speech in this browser";
 }
+playBtn.addEventListener("click", () => play(0));
+stopBtn.addEventListener("click", stopReading);
 
 // ---------------------------------------------------------------------------------------------------------------
 // Findings, WCAG, verdict

@@ -168,30 +168,69 @@ export function readAloud(doc: Document): Line[] {
   return lines;
 }
 
-/** Speaks lines one after the other in the browser's own voice for each line's language, and says where it is. */
+/** Why there's no sound, when there isn't. */
+export type Silence = "no-speech" | "no-voices" | "failed";
+
+/**
+ * Reads lines one after the other: aloud, in the browser's own voice for each line's language, and says where it
+ * is. A browser with no voice to speak with (Chrome on Linux without speech-dispatcher, some privacy setups) fails
+ * each line at once, which would race to the end in silence: the reader notices and steps through the lines at
+ * reading speed instead, still highlighting each, and says why it's silent.
+ */
 export class Reader {
   private i = 0;
   private stopped = true;
+  private timer: ReturnType<typeof setTimeout> | undefined;
+  private silent: Silence | null = null;
   rate = 1.05;
   onLine: (i: number) => void = () => {};
   onEnd: () => void = () => {};
+  /** Called once when the reader falls back to reading without sound. */
+  onSilent: (why: Silence) => void = () => {};
   constructor(private lines: Line[], private fallbackLang = "en") {}
 
   static available() {
-    return typeof window !== "undefined" && "speechSynthesis" in window;
+    return typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
   }
 
-  play(from = 0) {
+  /** The browser's voices: some browsers list them only after a moment. */
+  private static voices(): Promise<SpeechSynthesisVoice[]> {
+    const now = speechSynthesis.getVoices();
+    if (now.length) return Promise.resolve(now);
+    return new Promise((resolve) => {
+      const done = () => resolve(speechSynthesis.getVoices());
+      speechSynthesis.addEventListener("voiceschanged", done, { once: true });
+      setTimeout(done, 1200);
+    });
+  }
+
+  async play(from = 0) {
     this.stop();
     this.stopped = false;
     this.i = from;
+    if (!Reader.available()) this.goSilent("no-speech");
+    else if (!this.silent && !(await Reader.voices()).length) this.goSilent("no-voices");
+    if (this.stopped) return;
     this.next();
   }
 
   stop() {
     this.stopped = true;
+    clearTimeout(this.timer);
     if (Reader.available()) speechSynthesis.cancel();
   }
+
+  private goSilent(why: Silence) {
+    if (this.silent) return;
+    this.silent = why;
+    this.onSilent(why);
+  }
+
+  private advance = () => {
+    clearTimeout(this.timer);
+    this.i++;
+    this.next();
+  };
 
   private next() {
     if (this.stopped) return;
@@ -202,6 +241,12 @@ export class Reader {
     }
     const line = this.lines[this.i]!;
     this.onLine(this.i);
+    if (this.silent) {
+      // About as long as a screen reader takes to say it: 180 words a minute at normal speed.
+      const words = line.say.split(/\s+/).length;
+      this.timer = setTimeout(this.advance, Math.max(700, (words / (180 * this.rate)) * 60_000));
+      return;
+    }
     const u = new SpeechSynthesisUtterance(line.say);
     // With no lang on the email, the reader uses its own default voice: an English voice reading German, as it would.
     const lang = line.lang ?? this.fallbackLang;
@@ -209,14 +254,28 @@ export class Reader {
     const voice = speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0, 2)));
     if (voice) u.voice = voice;
     u.rate = this.rate;
+    let started = false;
+    const begun = Date.now();
+    u.onstart = () => (started = true);
     u.onend = () => {
-      this.i++;
-      this.next();
+      // Ended at once without starting: nothing was spoken. Read this line again, silently.
+      if (!started && Date.now() - begun < 80) return this.fail();
+      this.advance();
     };
-    u.onerror = () => {
-      this.i++;
-      this.next();
+    u.onerror = (e) => {
+      if (e.error === "interrupted" || e.error === "canceled") return;
+      this.fail();
     };
+    // A voice that never starts (it happens in Chrome) shouldn't hang the reader.
+    this.timer = setTimeout(() => !started && this.fail(), 4000);
     speechSynthesis.speak(u);
+  }
+
+  private fail() {
+    if (this.stopped) return;
+    clearTimeout(this.timer);
+    speechSynthesis.cancel();
+    this.goSilent("failed");
+    this.next();
   }
 }
