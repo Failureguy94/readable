@@ -227,6 +227,22 @@ frame.addEventListener("load", () => {
   style.textContent = `.__sr{outline:3px solid #f5b400 !important;outline-offset:2px;background-color:rgba(255,214,0,.28) !important;border-radius:3px}
   .__find{outline:3px dashed #a4161a !important;outline-offset:3px}`;
   doc.head?.appendChild(style);
+  // A link in the preview never opens in the preview: the page says where it goes instead. Fernhill's links go
+  // nowhere (it's a made-up shop, and the site's security policy blocks other sites in the frame); a link in your
+  // own email opens in a new tab.
+  doc.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest?.("a[href]");
+    if (!link) return;
+    e.preventDefault();
+    const href = link.getAttribute("href") ?? "";
+    if (state.slug === "yours") {
+      if (/^https?:/i.test(href)) window.open(href, "_blank", "noopener");
+      else toast(`This link goes to ${href}`);
+      return;
+    }
+    const where = href.replace(/^mailto:/, "").replace(/^https?:\/\//, "");
+    toast(href === "#" || !href ? "This link goes nowhere: its address is #" : `This link goes to ${where}. Fernhill is a made-up shop, so the preview stays here.`);
+  });
   applySim();
   lines = readAloud(doc);
   if (state.slug === "yours") {
@@ -422,11 +438,13 @@ function renderClientLinks() {
 // ---------------------------------------------------------------------------------------------------------------
 // Your own email
 
+let toastTimer: ReturnType<typeof setTimeout> | undefined;
 const toast = (msg: string) => {
   const t = $("#toast");
   t.textContent = msg;
   t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 2200);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), Math.max(2200, msg.length * 55));
 };
 function checkYours(html: string) {
   state.yours = html;
