@@ -189,12 +189,13 @@ const border = (v: unknown): { width: number; color?: string } => {
   return { width: sides.length && sides.length < 4 ? 0 : num(thinnest.width), color: typeof thinnest.color === "string" ? thinnest.color : undefined };
 };
 
-const PICTO = /\p{Extended_Pictographic}/gu;
+const PICTO = /\p{Emoji_Presentation}|\p{Extended_Pictographic}\uFE0F/gu;
 const EMOJI_NAMES: Record<string, string> = {
   "🎉": "party popper", "🚚": "delivery truck", "📦": "package", "✅": "check mark button", "🔒": "locked",
   "👉": "backhand index pointing right", "🔥": "fire", "⚠": "warning", "❤": "red heart", "✨": "sparkles",
   "🛒": "shopping cart", "🔑": "key", "⏰": "alarm clock", "👋": "waving hand", "🙌": "raising hands",
   "💳": "credit card", "📍": "round pushpin", "🚨": "police car light", "😊": "smiling face with smiling eyes",
+  "🎁": "wrapped gift", "💚": "green heart", "⭐": "star", "🛍": "shopping bags", "👍": "thumbs up", "📧": "e-mail", "🏷": "label",
 };
 export const emojiName = (e: string) => EMOJI_NAMES[e.replace(/️/g, "")] ?? "its full name";
 

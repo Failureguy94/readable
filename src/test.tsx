@@ -83,6 +83,7 @@ ok(new Set(CASES.map((c) => c[0])).size === RULES.length, `every one of the ${RU
 // No false alarms on text without capitals to be in, or a code that's grouped.
 ok(!(await findings(mail(<Text>يعمل الرمز لمدة 15 دقيقة، حتى 14:30 CET.</Text>))).includes("all-caps"), "all-caps: Arabic text with a time zone isn't \"in capitals\"");
 ok(!(await findings(mail(<Text>Total €1,234,567.00 on 2026-11-27</Text>))).includes("code-readout"), "code-readout: prices and dates aren't codes");
+ok(!(await findings(createElement(Email, { lang: "en", title: "T", previewText: "A test email that says what it is about" }, <Heading level={1}>© Fernhill™ 2026</Heading>))).includes("emoji"), "emoji: © and ™ aren't emoji");
 
 console.log("\n2. The templates");
 for (const { slug, template: T } of TEMPLATES) {

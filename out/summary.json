@@ -14,7 +14,7 @@
         "fail": 0
       },
       "before": {
-        "findings": 25,
+        "findings": 26,
         "rules": [
           "lang",
           "preview-text",
@@ -62,7 +62,7 @@
         "fail": 0
       },
       "before": {
-        "findings": 21,
+        "findings": 22,
         "rules": [
           "lang",
           "preview-text",
@@ -106,7 +106,7 @@
         "fail": 0
       },
       "before": {
-        "findings": 11,
+        "findings": 12,
         "rules": [
           "lang",
           "preview-text",
@@ -147,7 +147,7 @@
         "fail": 0
       },
       "before": {
-        "findings": 11,
+        "findings": 12,
         "rules": [
           "lang",
           "preview-text",
@@ -157,6 +157,7 @@
           "line-height",
           "centered-text",
           "link-distinct",
+          "target-size",
           "layout-table",
           "headings"
         ]

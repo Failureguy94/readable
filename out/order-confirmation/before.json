@@ -184,6 +184,14 @@
     "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#non-text-contrast"
   },
   {
+    "code": "email/lint-target-size",
+    "severity": "warning",
+    "message": "These social icons are 18 px: a tap target needs at least 24×24 px",
+    "path": "root.children[3].children[0]",
+    "fix": "Give the button padding so it's at least 24 px tall and wide; 44 px is better on phones.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#target-size"
+  },
+  {
     "code": "email/lint-layout-table",
     "severity": "warning",
     "message": "1 table has no header cells and no role=\"presentation\": a screen reader announces it as a data table",

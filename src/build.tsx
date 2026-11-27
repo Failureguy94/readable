@@ -72,6 +72,7 @@ for (const { slug, template } of TEMPLATES) {
   console.log(`${slug}: ${a.valid ? "passes" : "FAILS"} ${a.ruleCount} rules × ${a.locales.length} languages, parity ${a.parity.ok}; criteria ${JSON.stringify(row.criteria)}; before: ${found.length} findings (${row.before.rules.length} rules); clients: ${clients.previews.length} previews, ${clientFindings.length} findings`);
   if (!a.valid) for (const d of a.diagnostics.filter((d) => d.severity === "error")) console.log(`  ${d.locale} ${d.code} ${d.message}`);
 }
+await import("./docs");
 await writeFile("out/summary.json", JSON.stringify({ date: today, templates: summary }, null, 2));
 await browser.close();
 if (summary.some((s) => !s.valid)) process.exit(1);

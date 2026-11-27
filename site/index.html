@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Readable: transactional emails everyone can read</title>
+<meta name="description" content="Accessible order, shipping, password and security emails for the European Accessibility Act, built with Hyper Elements, with a WCAG plugin that makes templates refuse what fails. Hear them read by a screen reader.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fbfaf7; --panel: #ffffff; --ink: #1b1f23; --muted: #4b5563; --line: #d9ddd6; --soft: #f1f3ef;
+  --accent: #1d5c47; --accent-ink: #ffffff; --accent-soft: #e5f0eb;
+  --bad: #a4161a; --bad-soft: #fcebea; --warn: #7a4f00; --warn-soft: #fff4dc; --good: #1d5c47; --good-soft: #e5f0eb;
+  --focus: #0b57d0; --code: #f3f1ea;
+  --radius: 12px; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 24px rgba(0,0,0,.05);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: var(--accent); text-underline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+code, pre, kbd { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .86em; }
+code { background: var(--code); padding: 1px 5px; border-radius: 4px; }
+.skip { position: absolute; left: -9999px; top: 8px; background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 8px; z-index: 10; }
+.skip:focus { left: 8px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+header.top { border-bottom: 1px solid var(--line); background: var(--panel); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; }
+.brand svg { flex: none; }
+nav ul { display: flex; gap: 6px 18px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+nav a { color: var(--ink); text-decoration: none; padding: 6px 2px; }
+nav a:hover { text-decoration: underline; }
+
+.hero { padding: 56px 0 40px; }
+.hero .eyebrow { display: inline-block; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 4px 12px; border-radius: 999px; font-size: 15px; }
+.hero h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.08; margin: 18px 0 18px; letter-spacing: -0.01em; max-width: 16ch; }
+.hero p.lead { font-size: 20px; max-width: 62ch; margin: 0 0 14px; }
+.hero p { max-width: 70ch; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 28px 0 26px; padding: 0; list-style: none; }
+.stats li { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+.stats b { display: block; font-size: 30px; line-height: 1.1; }
+.stats span { color: var(--muted); font-size: 15px; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 18px; border-radius: 10px; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.btn.secondary { background: var(--panel); color: var(--accent); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn.small { min-height: 38px; padding: 6px 12px; font-size: 15px; }
+
+section.band { padding: 44px 0; border-top: 1px solid var(--line); }
+section.band > .wrap > h2 { font-size: clamp(26px, 3.2vw, 36px); margin: 0 0 8px; line-height: 1.2; }
+section.band > .wrap > p.sub { margin: 0 0 22px; color: var(--muted); max-width: 72ch; }
+
+/* The demo */
+.bar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; margin-bottom: 16px; }
+.field { display: grid; gap: 4px; }
+.field > span, .field > label { font-size: 14px; font-weight: 700; color: var(--muted); }
+select, input[type=text], textarea { font: inherit; color: var(--ink); background: var(--panel); border: 2px solid #8a948c; border-radius: 8px; padding: 8px 10px; min-height: 44px; }
+textarea { width: 100%; min-height: 180px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.45; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs [role=tab], .seg button { font: inherit; font-size: 15px; font-weight: 700; min-height: 44px; padding: 8px 14px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+.tabs [role=tab][aria-selected=true] { border-color: var(--ink); background: var(--ink); color: #fff; }
+.seg { display: inline-flex; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; min-width: 120px; }
+.seg button[aria-pressed=true] { background: var(--ink); color: #fff; }
+.seg button[data-v=before][aria-pressed=true] { background: var(--bad); }
+.seg button[data-v=after][aria-pressed=true] { background: var(--accent); }
+
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 470px); gap: 18px; align-items: start; }
+.stage > * { min-width: 0; }
+@media (max-width: 980px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.preview .head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.verdict { font-weight: 700; padding: 4px 10px; border-radius: 999px; font-size: 15px; }
+.verdict.bad { background: var(--bad-soft); color: var(--bad); }
+.verdict.good { background: var(--good-soft); color: var(--good); }
+.frame-box { background: #e8ebe6; padding: 14px; overflow: auto; display: flex; justify-content: center; border-radius: 0 0 var(--radius) var(--radius); }
+.frame-box iframe { border: 0; background: #fff; width: 640px; max-width: 100%; height: 760px; display: block; box-shadow: 0 0 0 1px var(--line); }
+.frame-box.phone iframe { width: 320px; }
+.frame-box.zoom iframe { width: 640px; }
+.sim-note { padding: 8px 12px; font-size: 15px; color: var(--muted); border-top: 1px solid var(--line); margin: 0; }
+.links-row { padding: 8px 12px 12px; font-size: 15px; display: flex; gap: 6px 14px; flex-wrap: wrap; }
+
+.panel .ptabs { display: flex; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.panel .ptabs [role=tab] { flex: 1 0 auto; font: inherit; font-size: 15px; font-weight: 700; background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 12px 9px; min-height: 48px; cursor: pointer; color: var(--muted); }
+.panel .ptabs [role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
+.panel [role=tabpanel] { padding: 14px; }
+.panel [role=tabpanel][hidden] { display: none; }
+.player { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+.player .rate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+.rotor { display: flex; gap: 6px; margin: 4px 0 10px; flex-wrap: wrap; }
+.rotor button { font: inherit; font-size: 14px; padding: 4px 10px; min-height: 36px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); cursor: pointer; }
+.rotor button[aria-pressed=true] { border-color: var(--ink); background: var(--ink); color: #fff; }
+ol.transcript { list-style: none; margin: 0; padding: 0; max-height: 600px; overflow: auto; border: 1px solid var(--line); border-radius: 10px; }
+ol.transcript li { border-bottom: 1px solid var(--soft); }
+ol.transcript li:last-child { border-bottom: 0; }
+ol.transcript button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 64px 1fr; gap: 8px; width: 100%; padding: 8px 10px; cursor: pointer; font-size: 15px; line-height: 1.45; }
+ol.transcript button:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+ol.transcript li.now button { background: #fff3bf; }
+ol.transcript .k { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding-top: 3px; }
+ol.transcript .p { display: block; color: var(--bad); font-size: 14px; margin-top: 2px; }
+ol.transcript .p::before { content: "⚠ "; }
+.lang-note { font-size: 14px; padding: 8px 10px; border-radius: 8px; background: var(--warn-soft); color: var(--warn); margin: 0 0 10px; }
+.findings { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.findings li { border: 1px solid var(--line); border-left: 5px solid var(--bad); border-radius: 8px; padding: 8px 10px; font-size: 15px; }
+.findings li.info { border-left-color: var(--warn); }
+.findings li.pass { border-left-color: var(--good); }
+.findings li button.locate { font: inherit; font-size: 13px; margin-top: 4px; background: none; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; min-height: 30px; }
+.findings .rule { font-weight: 700; }
+.findings .tag { font-size: 12px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--soft); color: var(--muted); margin-left: 6px; white-space: nowrap; }
+.findings .fix { color: var(--muted); display: block; margin-top: 2px; }
+details.rules-ok summary { cursor: pointer; font-weight: 700; padding: 6px 0; }
+.rule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 4px 10px; font-size: 14px; margin: 6px 0 0; padding: 0; list-style: none; }
+.rule-grid li::before { content: "✓ "; color: var(--good); font-weight: 700; }
+pre.plain { white-space: pre-wrap; word-break: break-word; background: var(--code); border-radius: 10px; padding: 12px; margin: 0; max-height: 600px; overflow: auto; font-size: 13.5px; }
+.crit { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.crit th, .crit td { text-align: start; padding: 6px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.crit th { font-size: 13px; color: var(--muted); }
+.st { font-weight: 700; white-space: nowrap; }
+.st.pass { color: var(--good); } .st.review { color: var(--warn); } .st.fail { color: var(--bad); }
+.yours { display: grid; gap: 10px; margin-bottom: 16px; }
+.yours[hidden] { display: none; }
+.row-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.muted { color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Reference sections */
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.grid3 .card { padding: 18px; }
+.grid3 h3 { margin: 0 0 6px; font-size: 20px; }
+.ruletable { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; font-size: 15.5px; }
+.ruletable th, .ruletable td { padding: 10px 12px; text-align: start; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ruletable th { background: var(--soft); font-size: 14px; }
+.ruletable td:first-child { white-space: nowrap; font-weight: 700; }
+.table-scroll { overflow-x: auto; }
+pre.code { background: #16201c; color: #e8efe9; padding: 16px; border-radius: var(--radius); overflow-x: auto; font-size: 14px; line-height: 1.55; margin: 0; }
+pre.code .c { color: #9fb5aa; }
+.reports { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.reports a { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; text-decoration: none; color: var(--ink); }
+.reports a:hover { border-color: var(--accent); }
+.reports b { display: block; color: var(--accent); }
+footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--muted); font-size: 15px; }
+#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+#toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the demo</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <!-- Machado, Oliveira and Fernandes (2009): full dichromacy, applied in linear RGB -->
+  <filter id="protanopia" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0"/></filter>
+  <filter id="deuteranopia" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0"/></filter>
+  <filter id="tritanopia" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0"/></filter>
+</svg>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Readable, home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#1d5c47"/><path d="M8 11h16M8 16h16M8 21h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+      Readable
+    </a>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#main">Hear the difference</a></li>
+        <li><a href="#rules">The rules</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#reports">Reports</a></li>
+        <li><a href="https://github.com/Failureguy94/readable">Code on GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">For the European Accessibility Act</span>
+    <h1>Transactional emails everyone can read.</h1>
+    <p class="lead">Order confirmations, shipping updates, password resets and sign-in alerts that work with a screen reader, a magnifier, a phone and tired eyes. They're built with Hyper Elements and can't be sent if they break.</p>
+    <p>Since 28 June 2025, the European Accessibility Act requires online shops in the EU to make their services accessible, and the emails customers get are part of them. Most fail without anyone noticing, because nobody on the team hears them the way a screen reader user does. Readable shows you, and fixes it at the template.</p>
+    <ul class="stats" aria-label="Readable in numbers">
+      <li><b>{{TEMPLATES}}</b><span>email templates</span></li>
+      <li><b>{{LOCALES}}</b><span>languages, one right to left</span></li>
+      <li><b>{{REQUIRED}}</b><span>rules each template requires</span></li>
+      <li><b>{{OWN}}</b><span>new WCAG rules for Hyper Elements</span></li>
+      <li><b>{{BEFORE}}</b><span>problems found in the typical versions</span></li>
+    </ul>
+    <div class="cta">
+      <a class="btn" href="#main">Hear the difference</a>
+      <a class="btn secondary" href="#main" data-goto="yours">Check your own email</a>
+    </div>
+  </div>
+</div>
+
+<main id="main" tabindex="-1">
+<section class="band" aria-labelledby="demo-h">
+  <div class="wrap">
+    <h2 id="demo-h">Hear the difference</h2>
+    <p class="sub">Pick an email, then press <b>Listen</b>. You'll hear it the way a screen reader reads it, and see where it is. Switch between the typical version and Readable's, or see it as someone with a colour vision deficiency, low vision or a small phone would.</p>
+
+    <div class="bar">
+      <div class="field">
+        <span id="pick-label">Email</span>
+        <div class="tabs" role="tablist" aria-labelledby="pick-label" id="picker"></div>
+      </div>
+    </div>
+    <div class="bar" id="mode-bar">
+      <div class="field">
+        <span id="ver-label">Version</span>
+        <div class="seg" role="group" aria-labelledby="ver-label">
+          <button type="button" data-v="before" aria-pressed="false">Typical</button>
+          <button type="button" data-v="after" aria-pressed="true">Readable</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="locale">Language</label>
+        <select id="locale"></select>
+      </div>
+      <div class="field">
+        <label for="sim">See it as</label>
+        <select id="sim">
+          <option value="none">Most people see it</option>
+          <option value="phone">On a small phone (320 px)</option>
+          <option value="zoom">Zoomed to 200%</option>
+          <option value="protanopia">Protanopia (no red cones)</option>
+          <option value="deuteranopia">Deuteranopia (no green cones)</option>
+          <option value="tritanopia">Tritanopia (no blue cones)</option>
+          <option value="grey">In grey scale</option>
+          <option value="blur">With low vision (blurred)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="yours" id="yours" hidden>
+      <label for="html-in"><b>Paste your email's HTML</b>, or open an .html file. It's checked in your browser and goes nowhere.</label>
+      <textarea id="html-in" spellcheck="false" placeholder="<!DOCTYPE html>&#10;<html>…"></textarea>
+      <div class="row-actions">
+        <button type="button" class="btn" id="check-html">Check it</button>
+        <label class="btn secondary" for="html-file">Open a file</label>
+        <input type="file" id="html-file" accept=".html,.htm,text/html" class="sr-only">
+        <button type="button" class="btn secondary" id="load-sample">Use a sample</button>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="card preview">
+        <div class="head">
+          <span class="verdict" id="verdict" role="status"></span>
+          <span class="muted" id="frame-label"></span>
+        </div>
+        <div class="frame-box" id="frame-box">
+          <iframe id="frame" title="The email" sandbox="allow-same-origin"></iframe>
+        </div>
+        <p class="sim-note" id="sim-note" hidden></p>
+        <div class="links-row" id="client-links"></div>
+      </div>
+
+      <div class="card panel">
+        <div class="ptabs" role="tablist" aria-label="About this email">
+          <button role="tab" id="t-listen" aria-controls="p-listen" aria-selected="true">Screen reader</button>
+          <button role="tab" id="t-find" aria-controls="p-find" aria-selected="false" tabindex="-1">Findings</button>
+          <button role="tab" id="t-text" aria-controls="p-text" aria-selected="false" tabindex="-1">Plain text</button>
+          <button role="tab" id="t-wcag" aria-controls="p-wcag" aria-selected="false" tabindex="-1">WCAG</button>
+        </div>
+        <div role="tabpanel" id="p-listen" aria-labelledby="t-listen">
+          <div class="player">
+            <button type="button" class="btn small" id="play">▶ Listen</button>
+            <button type="button" class="btn small secondary" id="stop" disabled>■ Stop</button>
+            <label class="rate">Speed <select id="rate"><option value="0.85">Slow</option><option value="1.05" selected>Normal</option><option value="1.4">Fast</option><option value="1.9">Expert</option></select></label>
+          </div>
+          <p class="lang-note" id="lang-note" hidden></p>
+          <div class="rotor" role="group" aria-label="Show">
+            <button type="button" data-r="all" aria-pressed="true">Everything</button>
+            <button type="button" data-r="heading" aria-pressed="false">Headings</button>
+            <button type="button" data-r="link" aria-pressed="false">Links</button>
+            <button type="button" data-r="problem" aria-pressed="false">Problems</button>
+          </div>
+          <p class="muted" id="rotor-note" style="font-size:14px;margin:0 0 8px"></p>
+          <ol class="transcript" id="transcript" aria-label="What the screen reader says"></ol>
+        </div>
+        <div role="tabpanel" id="p-find" aria-labelledby="t-find" hidden></div>
+        <div role="tabpanel" id="p-text" aria-labelledby="t-text" hidden>
+          <p class="muted" style="margin-top:0;font-size:15px">The plain-text part Hyper Elements writes next to the HTML. Some people read email as text only. Readable checks that it has every link, heading and table cell the HTML has.</p>
+          <pre class="plain" id="plain"></pre>
+        </div>
+        <div role="tabpanel" id="p-wcag" aria-labelledby="t-wcag" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="rules" aria-labelledby="rules-h">
+  <div class="wrap">
+    <h2 id="rules-h">{{OWN}} rules Hyper Elements didn't have</h2>
+    <p class="sub">Hyper Elements' lint already checks contrast, alt text, link text, headings and language. Readable adds what it doesn't, as a plugin over the same laid-out template. Each rule names its WCAG 2.2 success criterion, and a template that requires a rule can't pass while the rule finds something.</p>
+    <div class="table-scroll">
+      <table class="ruletable">
+        <thead><tr><th scope="col">Rule</th><th scope="col">WCAG</th><th scope="col">What it finds</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{{RULE_ROWS}}</tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <h2 id="how-h">How it works</h2>
+    <p class="sub">Readable is three things, each using Hyper Elements the way it's meant to be used.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>1. A plugin that templates require</h3>
+        <p><code>readable()</code> is a lint plugin. It runs <code>@hyper-elements/lint</code>, adds 13 rules, and describes them the way lint describes its own. So a template requires them in <code>rules.require.lint</code>, and <code>check()</code> fails closed: if a rule finds something, or doesn't run, the email isn't sent.</p>
+      </div>
+      <div class="card">
+        <h3>2. Four templates that pass all {{REQUIRED}}</h3>
+        <p>Each is a <code>template()</code> with typed fields: an order number pattern, a six-digit code the template groups as "482 913", a carrier it builds the tracking link for. Its words come in four languages, and its links can only go to the shop and the carrier. Every rule is required, in every language.</p>
+      </div>
+      <div class="card">
+        <h3>3. A report for each</h3>
+        <p>The template's <code>check()</code> results, mapped to WCAG 2.2 criteria, become a Hyper Elements <code>Document</code> template printed to PDF. It lists what passed automatically, what Hyper Elements' output guarantees, and what a person still has to confirm.</p>
+      </div>
+    </div>
+    <h3 style="margin:28px 0 10px">The plugin, in a template</h3>
+<pre class="code"><code><span class="c">// One plugin: lint's 18 rules, and Readable's 13.</span>
+import { readable } from "readable/wcag";
+
+export const PasswordReset = template({
+  id: "readable.PasswordReset",
+  root: "Email",
+  fields: { code: prop.text({ pattern: "^[0-9]{6}$" }), <span class="c">/* … */</span> },
+  rules: {
+    plugins: { lint: readable({ kind: "transactional" }) },
+    require: {
+      lint: ["contrast", "link-text", "lang", "target-size", "code-readout", "emoji", <span class="c">/* all {{REQUIRED_LINT}} */</span>],
+      core: ["layout/overflow"],
+    },
+    links: { domains: ["fernhill.example", "*.fernhill.example"], schemes: ["mailto"], tags: "deny" },
+    root: { lang: true, title: true, previewText: true },
+  },
+  render: (v) =&gt; <span class="c">/* … */</span> &lt;Text&gt;{group(v.code)}&lt;/Text&gt; <span class="c">/* "482 913" */</span>,
+});
+
+PasswordReset.check(values);  <span class="c">// { valid, rules: [{ rule: "code-readout", status: "passed" }, …], snapshots }</span></code></pre>
+  </div>
+</section>
+
+<section class="band" id="reports" aria-labelledby="reports-h">
+  <div class="wrap">
+    <h2 id="reports-h">Conformance reports</h2>
+    <p class="sub">One per template, against WCAG 2.2 level AA. That includes WCAG 2.1 AA, which is what EN 301 549 (the standard the European Accessibility Act points to) asks for. A Hyper Elements <code>Document</code>, made from the template's own <code>check()</code>.</p>
+    <ul class="reports">{{REPORT_LINKS}}</ul>
+    <p class="muted" style="margin-top:18px;font-size:15px">Automated checks find many barriers, not all of them. That's why each report says which criteria a person confirms: the words, the images, and what's said about time limits. Readable's templates are written to meet those too.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Readable is an entry to the <a href="https://github.com/hyper-elements/hyper-elements">Hyper Elements</a> template challenge. MIT licensed. Fernhill is a made-up shop. The screen reader on this page is a model of how NVDA and VoiceOver read email HTML, spoken by your browser's own voices. It isn't a recording of either. <a href="https://github.com/Failureguy94/readable">Source and run instructions</a>.</p>
+  </div>
+</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="/app.js" type="module"></script>
+</body>
+</html>
