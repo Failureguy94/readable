@@ -104,7 +104,7 @@ await writeFile(join(dist, "data.json"), JSON.stringify(data));
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const ruleRows = RULES.map(
   (r) =>
-    `<tr><th scope="row"><code>${r.id}</code></th><td data-label="WCAG">${r.wcag.join(", ")} <span class="muted">${r.level}</span></td><td data-label="What it finds">${esc(r.summary)}</td><td data-label="Why it matters">${esc(r.why)}</td></tr>`,
+    `<tr><th scope="row"><code>${r.id}</code></th><td data-label="WCAG">${r.wcag.join(", ")} <span class="muted">${r.level}</span></td><td data-label="What it finds">${esc(r.summary)}<details><summary>Why it matters</summary><p>${esc(r.why)}</p></details></td></tr>`,
 ).join("");
 const reportLinks = templates.map((t) => `<li><a href="/reports/${t.slug}.pdf"><b>${esc(t.label)}</b><span>PDF · ${t.ruleCount} rules · ${t.criteria.length} criteria</span></a></li>`).join("");
 
@@ -128,6 +128,6 @@ html = html.replace(/\{\{(\w+)\}\}/g, (_, k) => {
 await writeFile(join(dist, "index.html"), html);
 await writeFile(
   join(dist, "favicon.svg"),
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1d5c47"/><path d="M8 11h16M8 16h16M8 21h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#ff5a5f"/><path d="M8 11h16M8 16h16M8 21h10" stroke="#2a0e10" stroke-width="2.6" stroke-linecap="round"/></svg>`,
 );
 console.log(`site/dist: ${templates.length} templates, ${beforeTotal} problems in the typical versions`);

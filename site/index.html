@@ -4,169 +4,251 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Readable: transactional emails everyone can read</title>
-<meta name="description" content="Accessible order, shipping, password and security emails for the European Accessibility Act, built with Hyper Elements, with a WCAG plugin that makes templates refuse what fails. Hear them read by a screen reader.">
+<meta name="description" content="Accessible order, shipping, password and sign-in emails for the European Accessibility Act, built with Hyper Elements, with a WCAG plugin that won't let an inaccessible email be sent. Hear them read by a screen reader.">
+<meta name="theme-color" content="#030711">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700&display=swap" rel="stylesheet">
 <style>
+/* Unlayer's look: deep navy, coral, pill buttons, Satoshi headings, Inter text, JetBrains Mono labels.
+   Every text colour here is at least 4.5:1 on the surface it sits on, and every control's edge at least 3:1. */
 :root {
-  --bg: #fbfaf7; --panel: #ffffff; --ink: #1b1f23; --muted: #4b5563; --line: #d9ddd6; --soft: #f1f3ef;
-  --accent: #1d5c47; --accent-ink: #ffffff; --accent-soft: #e5f0eb;
-  --bad: #a4161a; --bad-soft: #fcebea; --warn: #7a4f00; --warn-soft: #fff4dc; --good: #1d5c47; --good-soft: #e5f0eb;
-  --focus: #0b57d0; --code: #f3f1ea;
-  --radius: 12px; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 24px rgba(0,0,0,.05);
+  color-scheme: dark;
+  --bg: #030711; --bg-2: #0b1020; --panel: #0e1424; --panel-2: #161920; --line: #232a3b; --line-strong: #5d6680;
+  --ink: #f5f7fb; --text: #b6bdcc; --muted: #8d95a8;
+  --accent: #ff5a5f; --accent-ink: #2a0e10; --accent-soft: rgba(255, 90, 95, .14);
+  --bad: #ff8a8d; --bad-soft: rgba(255, 90, 95, .14); --warn: #f5c451; --warn-soft: rgba(245, 196, 81, .12); --good: #3dd68c; --good-soft: rgba(61, 214, 140, .13);
+  --focus: #8ab4ff; --code: #161c2e;
+  --radius: 16px; --shadow: inset 0 1px 0 rgba(255, 255, 255, .04), 0 24px 48px -28px rgba(0, 0, 0, .9);
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Satoshi", "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: var(--bg); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif; }
-a { color: var(--accent); text-underline-offset: 2px; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
-code, pre, kbd { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .86em; }
-code { background: var(--code); padding: 1px 5px; border-radius: 4px; }
-.skip { position: absolute; left: -9999px; top: 8px; background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 8px; z-index: 10; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--display); color: var(--ink); font-weight: 700; letter-spacing: -0.02em; }
+b, strong { color: var(--ink); font-weight: 600; }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+code, pre, kbd { font-family: var(--mono); font-size: .84em; }
+code { background: var(--code); color: var(--ink); padding: 1px 6px; border-radius: 6px; }
+.skip { position: absolute; left: -9999px; top: 8px; background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 999px; z-index: 30; }
 .skip:focus { left: 8px; }
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-header.top { border-bottom: 1px solid var(--line); background: var(--panel); }
-header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; }
+.muted { color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Header */
+header.top { position: sticky; top: 0; z-index: 20; background: rgba(3, 7, 17, .82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 21px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
 .brand svg { flex: none; }
-nav ul { display: flex; gap: 6px 18px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
-nav a { color: var(--ink); text-decoration: none; padding: 6px 2px; }
-nav a:hover { text-decoration: underline; }
-@media (max-width: 480px) { nav ul { gap: 0 14px; } nav a { font-size: 16px; } }
+nav { display: flex; align-items: center; gap: 22px; }
+nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+nav ul a { color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500; padding: 6px 0; }
+nav ul a:hover { color: var(--ink); }
+@media (max-width: 760px) { nav ul { display: none; } }
 
-.hero { padding: 56px 0 40px; }
-.hero .eyebrow { display: inline-block; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 4px 12px; border-radius: 999px; font-size: 15px; }
-.hero h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.08; margin: 18px 0 18px; letter-spacing: -0.01em; max-width: 16ch; }
-.hero p.lead { font-size: 20px; max-width: 62ch; margin: 0 0 14px; }
-.hero p { max-width: 70ch; }
-.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 28px 0 26px; padding: 0; list-style: none; }
-.stats li { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
-.stats b { display: block; font-size: 30px; line-height: 1.1; }
-.stats span { color: var(--muted); font-size: 15px; }
-@media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } .stats li:last-child { grid-column: 1 / -1; } }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 24px; border-radius: 999px; border: 1px solid transparent; font: 600 16px/1.2 var(--font); text-decoration: none; cursor: pointer; background: var(--accent); color: var(--accent-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 0 0 1px rgba(255, 90, 95, .6), 0 12px 28px -10px rgba(255, 90, 95, .7); }
+.btn:hover { background: #ff6d72; }
+.btn.secondary { background: var(--panel-2); color: var(--ink); border-color: var(--line-strong); box-shadow: none; }
+.btn.secondary:hover { background: #1f232c; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.small { min-height: 40px; padding: 6px 16px; font-size: 15px; }
+.btn.ghost { min-height: 40px; padding: 6px 16px; font-size: 15px; background: transparent; color: var(--ink); border-color: var(--line-strong); box-shadow: none; }
+
+/* Hero: what it is, in two sentences, and what a screen reader hears */
+.hero { position: relative; overflow: hidden; padding: 72px 0 64px;
+  background: radial-gradient(55% 70% at 85% 0%, rgba(45, 212, 191, .10), transparent 60%), radial-gradient(45% 60% at 10% 100%, rgba(255, 90, 95, .10), transparent 60%); }
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px); background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent); mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent); }
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 56px; align-items: center; }
+@media (max-width: 960px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 40px; } .hero { padding: 48px 0 44px; } }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 5px 14px; border: 1px solid var(--line-strong); border-radius: 999px; font: 500 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: rgba(22, 25, 32, .6); }
+.eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.hero h1 { font-size: clamp(40px, 6vw, 66px); line-height: 1.02; margin: 22px 0 20px; }
+.hero .lead { font-size: 19px; line-height: 1.6; max-width: 34em; margin: 0 0 30px; }
 .cta { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 18px; border-radius: 10px; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
-.btn.secondary { background: var(--panel); color: var(--accent); }
-.btn:disabled { opacity: .55; cursor: not-allowed; }
-.btn.small { min-height: 38px; padding: 6px 12px; font-size: 15px; }
+@media (max-width: 480px) { .cta .btn { flex: 1 1 100%; } .hero .lead { font-size: 18px; } }
 
-section.band { padding: 44px 0; border-top: 1px solid var(--line); }
-section.band > .wrap > h2 { font-size: clamp(26px, 3.2vw, 36px); margin: 0 0 8px; line-height: 1.2; }
-section.band > .wrap > p.sub { margin: 0 0 22px; color: var(--muted); max-width: 72ch; }
+.hears { margin: 0; padding: 20px; background: linear-gradient(180deg, rgba(22, 28, 46, .9), rgba(11, 16, 32, .9)); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); }
+.hears figcaption { display: flex; align-items: center; gap: 8px; font: 500 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.hears figcaption svg { flex: none; }
+.said { border-radius: 12px; padding: 12px 14px; }
+.said + .said { margin-top: 10px; }
+.said.typical { background: var(--bad-soft); border: 1px solid rgba(255, 90, 95, .35); }
+.said.readable { background: var(--good-soft); border: 1px solid rgba(61, 214, 140, .35); }
+.said h2 { font: 700 13px/1.4 var(--font); letter-spacing: 0; margin: 0 0 6px; }
+.said.typical h2 { color: var(--bad); } .said.readable h2 { color: var(--good); }
+.said ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.said li { font: 14px/1.5 var(--mono); color: var(--ink); padding-inline-start: 1.5em; text-indent: -1.5em; }
+.said li::before { display: inline-block; width: 1.5em; text-indent: 0; }
+.said.typical li::before { content: "✕"; color: var(--bad); }
+.said.readable li::before { content: "✓"; color: var(--good); }
+
+/* The numbers, in one strip */
+.stats-band { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.stats { list-style: none; margin-block: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* The first number starts where the text above does. */
+.stats li { padding: 22px 20px; border-inline-start: 1px solid var(--line); }
+.stats li:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.stats b { display: block; font: 700 34px/1.1 var(--display); color: var(--ink); }
+.stats span { font-size: 14px; color: var(--muted); }
+@media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } .stats li:nth-child(odd) { border-inline-start: 0; padding-inline-start: 0; } .stats li:nth-child(n+3) { border-top: 1px solid var(--line); } }
+
+/* Sections */
+section.band { padding: 72px 0; border-top: 1px solid var(--line); }
+section.band.first { border-top: 0; }
+.kicker { margin: 0 0 10px; font: 500 12px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+section.band > .wrap > h2 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin: 0 0 12px; }
+section.band > .wrap > p.sub { margin: 0 0 28px; max-width: 60ch; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
 
 /* The demo */
-.bar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; margin-bottom: 16px; }
-.field { display: grid; gap: 4px; }
-.field > span, .field > label { font-size: 14px; font-weight: 700; color: var(--muted); }
-select, input[type=text], textarea { font: inherit; color: var(--ink); background: var(--panel); border: 2px solid #8a948c; border-radius: 8px; padding: 8px 10px; min-height: 44px; }
-textarea { width: 100%; min-height: 180px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.45; }
-.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
-.tabs [role=tab], .seg button { font: inherit; font-size: 15px; font-weight: 700; min-height: 44px; padding: 8px 14px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
-.tabs [role=tab][aria-selected=true] { border-color: var(--ink); background: var(--ink); color: #fff; }
+.bar { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: end; margin-bottom: 16px; }
+.field { display: grid; gap: 6px; }
+.field > span, .field > label { font: 500 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+select, input[type=text], textarea { font: inherit; font-size: 16px; color: var(--ink); background: var(--bg-2); border: 1px solid var(--line-strong); border-radius: 12px; padding: 8px 12px; min-height: 44px; }
+select { padding-inline-end: 34px; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text) 50%), linear-gradient(135deg, var(--text) 50%, transparent 50%); background-position: calc(100% - 18px) 52%, calc(100% - 13px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+textarea { width: 100%; min-height: 180px; font: 13px/1.5 var(--mono); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tabs [role=tab] { font: 600 15px/1.2 var(--font); min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--panel-2); color: var(--text); cursor: pointer; }
+.tabs [role=tab]:hover { color: var(--ink); }
+.tabs [role=tab][aria-selected=true] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 @media (max-width: 560px) { .tabs { display: grid; grid-template-columns: 1fr 1fr; } .tabs [data-slug=yours] { grid-column: 1 / -1; } }
-.seg { display: inline-flex; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; }
-/* 40 px inside a 2 px border: as tall as the selects beside it, so their labels line up. */
-.seg button { border: 0; border-radius: 0; min-width: 120px; min-height: 40px; }
-.seg button[aria-pressed=true] { background: var(--ink); color: #fff; }
-.seg button[data-v=before][aria-pressed=true] { background: var(--bad); }
-.seg button[data-v=after][aria-pressed=true] { background: var(--accent); }
+.seg { display: inline-flex; padding: 3px; gap: 3px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--bg-2); }
+/* 36 px inside 3 px padding and a 1 px border: 44 px, as tall as the selects beside it, so their labels line up. */
+.seg button { font: 600 15px/1.2 var(--font); min-height: 36px; min-width: 112px; padding: 6px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--text); cursor: pointer; }
+.seg button[data-v=before][aria-pressed=true] { background: var(--bad); color: var(--accent-ink); }
+.seg button[data-v=after][aria-pressed=true] { background: var(--good); color: #062115; }
 
 .stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 470px); gap: 18px; align-items: start; }
 .stage > * { min-width: 0; }
 @media (max-width: 980px) { .stage { grid-template-columns: minmax(0, 1fr); } }
-.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
-.preview .head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-.verdict { font-weight: 700; padding: 4px 10px; border-radius: 999px; font-size: 15px; }
+.preview { overflow: hidden; }
+.preview .head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.verdict { font-weight: 600; padding: 4px 12px; border-radius: 999px; font-size: 14px; }
 .verdict.bad { background: var(--bad-soft); color: var(--bad); }
 .verdict.good { background: var(--good-soft); color: var(--good); }
-.frame-box { background: #e8ebe6; padding: 14px; overflow: auto; display: flex; justify-content: center; border-radius: 0 0 var(--radius) var(--radius); }
-.frame-box iframe { border: 0; background: #fff; width: 640px; max-width: 100%; height: 760px; display: block; box-shadow: 0 0 0 1px var(--line); }
+#frame-label { font-size: 14px; }
+.frame-box { background: #1a2033; padding: 16px; overflow: auto; display: flex; justify-content: center; }
+.frame-box iframe { border: 0; background: #fff; width: 640px; max-width: 100%; height: 760px; display: block; border-radius: 6px; }
 .frame-box.phone iframe { width: 320px; }
 .frame-box.zoom iframe { width: 640px; }
-@media (max-width: 560px) { .frame-box { padding: 0; } .frame-box iframe { box-shadow: none; } }
-.sim-note { padding: 8px 12px; font-size: 15px; color: var(--muted); border-top: 1px solid var(--line); margin: 0; }
-.links-row { padding: 8px 12px 12px; font-size: 15px; display: flex; gap: 6px 14px; flex-wrap: wrap; }
+@media (max-width: 560px) { .frame-box { padding: 0; } .frame-box iframe { border-radius: 0; } }
+.sim-note { padding: 10px 14px; font-size: 14px; color: var(--text); border-top: 1px solid var(--line); margin: 0; }
+.links-row { padding: 10px 14px 14px; font-size: 14px; display: flex; gap: 6px 14px; flex-wrap: wrap; border-top: 1px solid var(--line); }
+.links-row:empty { display: none; }
 
 .panel .ptabs { display: flex; border-bottom: 1px solid var(--line); overflow-x: auto; }
-.panel .ptabs [role=tab] { flex: 1 0 auto; font: inherit; font-size: 15px; font-weight: 700; background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 12px 9px; min-height: 48px; cursor: pointer; color: var(--muted); }
-.panel .ptabs [role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
-.panel [role=tabpanel] { padding: 14px; }
-@media (max-width: 480px) { .panel .ptabs { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; } }
+.panel .ptabs [role=tab] { flex: 1 0 auto; font: 600 15px/1.2 var(--font); background: none; border: 0; border-bottom: 2px solid transparent; padding: 14px 12px 12px; min-height: 48px; cursor: pointer; color: var(--muted); }
+.panel .ptabs [role=tab]:hover { color: var(--ink); }
+.panel .ptabs [role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); }
+.panel [role=tabpanel] { padding: 16px; font-size: 15px; }
 .panel [role=tabpanel][hidden] { display: none; }
-.player { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
-.player .rate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
-.player select { min-height: 38px; padding: 4px 8px; font-size: 15px; }
+@media (max-width: 480px) { .panel .ptabs { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; } }
+.player { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.player .rate { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+.player select { min-height: 40px; padding-block: 4px; font-size: 15px; }
 .rotor { display: flex; gap: 6px; margin: 4px 0 10px; flex-wrap: wrap; }
-.rotor button { font: inherit; font-size: 14px; padding: 4px 10px; min-height: 36px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); cursor: pointer; }
-.rotor button[aria-pressed=true] { border-color: var(--ink); background: var(--ink); color: #fff; }
-ol.transcript { list-style: none; margin: 0; padding: 0; max-height: 600px; overflow: auto; border: 1px solid var(--line); border-radius: 10px; }
-ol.transcript li { border-bottom: 1px solid var(--soft); }
+.rotor button { font: 500 14px/1.2 var(--font); padding: 6px 14px; min-height: 36px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--text); cursor: pointer; }
+.rotor button[aria-pressed=true] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+#rotor-note { font-size: 14px; margin: 0 0 10px; }
+ol.transcript { list-style: none; margin: 0; padding: 0; max-height: 600px; overflow: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+ol.transcript li { border-bottom: 1px solid var(--line); }
 ol.transcript li:last-child { border-bottom: 0; }
-ol.transcript button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 64px 1fr; gap: 8px; width: 100%; padding: 8px 10px; cursor: pointer; font-size: 15px; line-height: 1.45; }
+ol.transcript button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 70px 1fr; gap: 8px; width: 100%; padding: 9px 12px; cursor: pointer; font-size: 15px; line-height: 1.45; color: var(--ink); }
+ol.transcript button:hover { background: rgba(255, 255, 255, .03); }
 ol.transcript button:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
-ol.transcript li.now button { background: #fff3bf; }
-ol.transcript .k { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding-top: 3px; }
+ol.transcript li.now button { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+ol.transcript .k { font: 500 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding-top: 3px; }
 ol.transcript .p { display: block; color: var(--bad); font-size: 14px; margin-top: 2px; }
 ol.transcript .p::before { content: "⚠ "; }
-.lang-note { font-size: 14px; padding: 8px 10px; border-radius: 8px; background: var(--warn-soft); color: var(--warn); margin: 0 0 10px; }
+.lang-note { font-size: 14px; padding: 10px 12px; border-radius: 12px; background: var(--warn-soft); color: var(--warn); margin: 0 0 12px; }
 .findings { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.findings li { border: 1px solid var(--line); border-left: 5px solid var(--bad); border-radius: 8px; padding: 8px 10px; font-size: 15px; }
-.findings li.info { border-left-color: var(--warn); }
-.findings li.pass { border-left-color: var(--good); }
-.findings li button.locate { font: inherit; font-size: 13px; margin-top: 4px; background: none; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; min-height: 30px; }
-.findings .rule { font-weight: 700; }
-.findings .tag { font-size: 12px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--soft); color: var(--muted); margin-left: 6px; white-space: nowrap; }
+.findings li { border: 1px solid var(--line); border-inline-start: 3px solid var(--bad); border-radius: 10px; padding: 10px 12px; background: var(--bg-2); color: var(--text); }
+.findings li.info { border-inline-start-color: var(--warn); }
+.findings li button.locate { font: 500 13px/1.2 var(--font); margin-top: 6px; background: none; color: var(--ink); border: 1px solid var(--line-strong); border-radius: 999px; padding: 4px 12px; cursor: pointer; min-height: 30px; }
+.findings .rule { font-weight: 600; color: var(--ink); }
+.findings .tag { font: 500 11px/1.4 var(--mono); padding: 2px 8px; border-radius: 999px; background: var(--panel-2); color: var(--muted); margin-inline-start: 6px; white-space: nowrap; }
 .findings .fix { color: var(--muted); display: block; margin-top: 2px; }
-details.rules-ok summary { cursor: pointer; font-weight: 700; padding: 6px 0; }
+details.rules-ok summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 6px 0; }
 .rule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 4px 10px; font-size: 14px; margin: 6px 0 0; padding: 0; list-style: none; }
 .rule-grid li::before { content: "✓ "; color: var(--good); font-weight: 700; }
-pre.plain { white-space: pre-wrap; word-break: break-word; background: var(--code); border-radius: 10px; padding: 12px; margin: 0; max-height: 600px; overflow: auto; font-size: 13.5px; }
-.crit { width: 100%; border-collapse: collapse; font-size: 14.5px; }
-.crit th, .crit td { text-align: start; padding: 6px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
-.crit th { font-size: 13px; color: var(--muted); }
-.st { font-weight: 700; white-space: nowrap; }
+pre.plain { white-space: pre-wrap; word-break: break-word; background: var(--bg-2); border: 1px solid var(--line); color: var(--ink); border-radius: 12px; padding: 14px; margin: 0; max-height: 600px; overflow: auto; font-size: 13px; }
+.crit { width: 100%; border-collapse: collapse; font-size: 14px; }
+.crit th, .crit td { text-align: start; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.crit th { font: 500 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.crit td b { font-family: var(--mono); font-size: 13px; }
+.st { font-weight: 600; white-space: nowrap; }
 .st.pass { color: var(--good); } .st.review { color: var(--warn); } .st.fail { color: var(--bad); }
 .yours { display: grid; gap: 10px; margin-bottom: 16px; }
 .yours[hidden] { display: none; }
 .row-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.muted { color: var(--muted); }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Reference sections */
-.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-@media (max-width: 900px) { .grid3 { grid-template-columns: minmax(0, 1fr); } }
-.grid3 .card { padding: 18px; }
-.grid3 h3 { margin: 0 0 6px; font-size: 20px; }
-.ruletable { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; font-size: 15.5px; }
-.ruletable th, .ruletable td { padding: 10px 12px; text-align: start; border-bottom: 1px solid var(--line); vertical-align: top; }
-.ruletable thead th { background: var(--soft); font-size: 14px; }
-.ruletable tbody th { white-space: nowrap; }
-.ruletable td[data-label=WCAG] { white-space: nowrap; }
-/* On a phone each rule is a card: its cells one under the other, each with its column's name. */
+/* The rules */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.ruletable { width: 100%; border-collapse: collapse; font-size: 15px; }
+.ruletable th, .ruletable td { padding: 14px 16px; text-align: start; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ruletable tbody tr:last-child > * { border-bottom: 0; }
+.ruletable thead th { font: 500 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); background: var(--bg-2); }
+.ruletable tbody th { white-space: nowrap; font-weight: 400; }
+.ruletable tbody th code { background: var(--accent-soft); color: var(--bad); }
+.ruletable td[data-label=WCAG] { white-space: nowrap; color: var(--ink); font-family: var(--mono); font-size: 13px; }
+.ruletable td[data-label=WCAG] .muted { display: block; font-family: var(--font); font-size: 13px; }
+.ruletable details { margin-top: 4px; }
+.ruletable summary { cursor: pointer; color: var(--muted); font-size: 14px; }
+.ruletable summary:hover { color: var(--ink); }
+.ruletable details p { margin: 4px 0 0; font-size: 14px; }
+/* On a phone each rule is a card: its cells one under the other. */
 @media (max-width: 700px) {
   .ruletable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .ruletable, .ruletable tbody, .ruletable tr, .ruletable th, .ruletable td { display: block; }
-  .ruletable tr { padding: 12px 14px; border-bottom: 1px solid var(--line); }
-  .ruletable tr:last-child { border-bottom: 0; }
+  .ruletable tr { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .ruletable tbody tr:last-child { border-bottom: 0; }
   .ruletable th, .ruletable td { padding: 0; border: 0; white-space: normal; }
-  .ruletable td::before { content: attr(data-label); display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .ruletable td[data-label=WCAG] .muted { display: inline; margin-inline-start: 6px; }
+  .ruletable td { margin-top: 6px; }
 }
-.table-scroll { overflow-x: auto; }
-pre.code { background: #16201c; color: #e8efe9; padding: 16px; border-radius: var(--radius); overflow-x: auto; font-size: 14px; line-height: 1.55; margin: 0; }
+
+/* How it works */
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 900px) { .grid3 { grid-template-columns: minmax(0, 1fr); } }
+.grid3 .card { padding: 22px; }
+.grid3 .num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font: 700 15px/1 var(--mono); margin-bottom: 14px; }
+.grid3 h3 { margin: 0 0 8px; font-size: 21px; line-height: 1.25; }
+.grid3 p { margin: 0; font-size: 16px; }
+details.code-sample { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow: hidden; }
+details.code-sample > summary { cursor: pointer; padding: 16px 20px; font-weight: 600; color: var(--ink); }
+details.code-sample[open] > summary { border-bottom: 1px solid var(--line); }
+pre.code { background: #070b17; color: #e6e9f2; padding: 20px; margin: 0; overflow-x: auto; font-size: 13.5px; line-height: 1.65; }
 pre.code code { background: none; padding: 0; color: inherit; font-size: inherit; }
-pre.code .c { color: #9fb5aa; }
+pre.code .c { color: #8d95a8; }
+
+/* Reports */
 .reports { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 @media (max-width: 1000px) { .reports { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .reports { grid-template-columns: minmax(0, 1fr); } }
-.reports a { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; text-decoration: none; color: var(--ink); }
+.reports a { display: block; height: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; text-decoration: none; color: var(--ink); transition: border-color .15s; }
 .reports a:hover { border-color: var(--accent); }
-.reports b { display: block; color: var(--accent); }
-.reports span { display: block; margin-top: 2px; color: var(--muted); font-size: 15px; }
-footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--muted); font-size: 15px; }
-#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+.reports b { display: block; font-family: var(--display); font-size: 18px; }
+.reports b::after { content: " ↓"; color: var(--accent); }
+.reports span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; }
+
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; }
+footer p { margin: 0; }
+footer a { color: var(--text); }
+#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 40; }
 #toast.show { opacity: 1; }
 </style>
 </head>
@@ -181,46 +263,67 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
 <header class="top">
   <div class="wrap">
     <a class="brand" href="/" aria-label="Readable, home">
-      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#1d5c47"/><path d="M8 11h16M8 16h16M8 21h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#ff5a5f"/><path d="M8 11h16M8 16h16M8 21h10" stroke="#2a0e10" stroke-width="2.6" stroke-linecap="round"/></svg>
       Readable
     </a>
     <nav aria-label="Sections">
       <ul>
-        <li><a href="#main">Hear the difference</a></li>
-        <li><a href="#rules">The rules</a></li>
+        <li><a href="#main">Demo</a></li>
+        <li><a href="#rules">Rules</a></li>
         <li><a href="#how">How it works</a></li>
         <li><a href="#reports">Reports</a></li>
-        <li><a href="{{REPO_URL}}">Code on GitHub</a></li>
       </ul>
+      <a class="btn ghost" href="{{REPO_URL}}">GitHub</a>
     </nav>
   </div>
 </header>
 
 <div class="hero">
   <div class="wrap">
-    <span class="eyebrow">For the European Accessibility Act</span>
-    <h1>Transactional emails everyone can read.</h1>
-    <p class="lead">Order confirmations, shipping updates, password resets and sign-in alerts that work with a screen reader, a magnifier, a phone and tired eyes. They're built with Hyper Elements and can't be sent if they break.</p>
-    <p>Since 28 June 2025, the European Accessibility Act requires online shops in the EU to make their services accessible, and the emails customers get are part of them. Most fail without anyone noticing, because nobody on the team hears them the way a screen reader user does. Readable shows you, and fixes it at the template.</p>
-    <ul class="stats" aria-label="Readable in numbers">
-      <li><b>{{TEMPLATES}}</b><span>email templates</span></li>
-      <li><b>{{LOCALES}}</b><span>languages, one right to left</span></li>
-      <li><b>{{REQUIRED}}</b><span>rules each template requires</span></li>
-      <li><b>{{OWN}}</b><span>new WCAG rules for Hyper Elements</span></li>
-      <li><b>{{BEFORE}}</b><span>problems found in the typical versions</span></li>
-    </ul>
-    <div class="cta">
-      <a class="btn" href="#main">Hear the difference</a>
-      <a class="btn secondary" href="#main" data-goto="yours">Check your own email</a>
+    <div>
+      <p class="eyebrow">For the European Accessibility Act</p>
+      <h1>Transactional emails everyone can read.</h1>
+      <p class="lead">Since June 2025, shops in the EU must send emails people can read with a screen reader, a magnifier or tired eyes. Readable is {{TEMPLATES}} Hyper Elements email templates that work for them, and a WCAG plugin that stops any email that doesn't from being sent.</p>
+      <div class="cta">
+        <a class="btn" href="#main">Hear the difference <span aria-hidden="true">→</span></a>
+        <a class="btn secondary" href="#main" data-goto="yours">Check your own email</a>
+      </div>
     </div>
+    <figure class="hears">
+      <figcaption><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>What a screen reader says</figcaption>
+      <div class="said typical">
+        <h2>A typical order confirmation</h2>
+        <ul>
+          <li>Heading level 3, party popper, Order Confirmed! party popper</li>
+          <li>Image, banner_final_v2.png</li>
+          <li>Link, click here</li>
+        </ul>
+      </div>
+      <div class="said readable">
+        <h2>Readable's</h2>
+        <ul>
+          <li>Heading level 1, Thanks for your order, Amira</li>
+          <li>Price, €129.00</li>
+          <li>Link, View order FH-20481</li>
+        </ul>
+      </div>
+    </figure>
   </div>
 </div>
 
+<div class="stats-band"><ul class="stats wrap" aria-label="Readable in numbers">
+  <li><b>{{OWN}}</b><span>new WCAG rules for Hyper Elements</span></li>
+  <li><b>{{REQUIRED}}</b><span>rules every template requires</span></li>
+  <li><b>{{LOCALES}}</b><span>languages, one right to left</span></li>
+  <li><b>{{BEFORE}}</b><span>problems in the typical versions</span></li>
+</ul></div>
+
 <main id="main" tabindex="-1">
-<section class="band" aria-labelledby="demo-h">
+<section class="band first" aria-labelledby="demo-h">
   <div class="wrap">
+    <p class="kicker">Demo</p>
     <h2 id="demo-h">Hear the difference</h2>
-    <p class="sub">Pick an email, then press <b>Listen</b>. You'll hear it the way a screen reader reads it, and see where it is. Switch between the typical version and Readable's, or see it as someone with a colour vision deficiency, low vision or a small phone would.</p>
+    <p class="sub">Pick an email and press <b>Listen</b> to hear it as a screen reader reads it.</p>
 
     <div class="bar">
       <div class="field">
@@ -299,12 +402,12 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
             <button type="button" data-r="link" aria-pressed="false">Links</button>
             <button type="button" data-r="problem" aria-pressed="false">Problems</button>
           </div>
-          <p class="muted" id="rotor-note" style="font-size:14px;margin:0 0 8px"></p>
+          <p class="muted" id="rotor-note"></p>
           <ol class="transcript" id="transcript" aria-label="What the screen reader says"></ol>
         </div>
         <div role="tabpanel" id="p-find" aria-labelledby="t-find" hidden></div>
         <div role="tabpanel" id="p-text" aria-labelledby="t-text" hidden>
-          <p class="muted" style="margin-top:0;font-size:15px">The plain-text part Hyper Elements writes next to the HTML. Some people read email as text only. Readable checks that it has every link, heading and table cell the HTML has.</p>
+          <p class="muted" style="margin-top:0">The plain-text part, for people who read email as text. Readable checks it has every link, heading and table cell.</p>
           <pre class="plain" id="plain"></pre>
         </div>
         <div role="tabpanel" id="p-wcag" aria-labelledby="t-wcag" hidden></div>
@@ -315,11 +418,12 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
 
 <section class="band" id="rules" aria-labelledby="rules-h">
   <div class="wrap">
+    <p class="kicker">The plugin</p>
     <h2 id="rules-h">{{OWN}} rules Hyper Elements didn't have</h2>
-    <p class="sub">Hyper Elements' lint already checks contrast, alt text, link text, headings and language. Readable adds what it doesn't, as a plugin over the same laid-out template. Each rule names its WCAG 2.2 success criterion, and a template that requires a rule can't pass while the rule finds something.</p>
+    <p class="sub">Each names its WCAG 2.2 criterion. A template that requires a rule can't pass while the rule finds something.</p>
     <div class="table-scroll">
       <table class="ruletable">
-        <thead><tr><th scope="col">Rule</th><th scope="col">WCAG</th><th scope="col">What it finds</th><th scope="col">Why it matters</th></tr></thead>
+        <thead><tr><th scope="col">Rule</th><th scope="col">WCAG</th><th scope="col">What it finds</th></tr></thead>
         <tbody>{{RULE_ROWS}}</tbody>
       </table>
     </div>
@@ -328,23 +432,28 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
 
 <section class="band" id="how" aria-labelledby="how-h">
   <div class="wrap">
-    <h2 id="how-h">How it works</h2>
-    <p class="sub">Readable is three things, each using Hyper Elements the way it's meant to be used.</p>
+    <p class="kicker">How it works</p>
+    <h2 id="how-h">Built on Hyper Elements, the way it's meant to be used</h2>
+    <p class="sub">Three parts, each one a Hyper Elements feature.</p>
     <div class="grid3">
       <div class="card">
-        <h3>1. A plugin that templates require</h3>
-        <p><code>readable()</code> is a lint plugin. It runs <code>@hyper-elements/lint</code>, adds {{OWN}} rules, and describes them the way lint describes its own. So a template requires them in <code>rules.require.lint</code>, and <code>check()</code> fails closed: if a rule finds something, or doesn't run, the email isn't sent.</p>
+        <span class="num" aria-hidden="true">1</span>
+        <h3>A plugin that templates require</h3>
+        <p><code>readable()</code> runs lint's rules and adds {{OWN}}. A template requires them, so <code>check()</code> fails if one finds something, or doesn't run.</p>
       </div>
       <div class="card">
-        <h3>2. Four templates that pass all {{REQUIRED}}</h3>
-        <p>Each is a <code>template()</code> with typed fields: an order number pattern, a six-digit code the template groups as "482 913", a carrier it builds the tracking link for. Its words come in four languages, and its links can only go to the shop and the carrier. Every rule is required, in every language.</p>
+        <span class="num" aria-hidden="true">2</span>
+        <h3>{{TEMPLATES}} templates that pass all {{REQUIRED}}</h3>
+        <p>Typed fields, words in {{LOCALES}} languages, links that can only go to the shop and its carriers. Every rule passes in every language.</p>
       </div>
       <div class="card">
-        <h3>3. A report for each</h3>
-        <p>The template's <code>check()</code> results, mapped to WCAG 2.2 criteria, become a Hyper Elements <code>Document</code> template printed to PDF. It lists what passed automatically, what Hyper Elements' output guarantees, and what a person still has to confirm.</p>
+        <span class="num" aria-hidden="true">3</span>
+        <h3>A report for each</h3>
+        <p>A Hyper Elements <code>Document</code> that maps <code>check()</code> to WCAG 2.2, and says what a person still confirms.</p>
       </div>
     </div>
-    <h3 style="margin:28px 0 10px">The plugin, in a template</h3>
+    <details class="code-sample">
+      <summary>See the plugin in a template</summary>
 <pre class="code"><code><span class="c">// One plugin: lint's {{LINT}} rules, and Readable's {{OWN}}.</span>
 import { readable } from "./src/wcag";
 
@@ -365,22 +474,24 @@ export const PasswordReset = template({
 });
 
 PasswordReset.check(values);  <span class="c">// { valid, rules: [{ rule: "code-readout", status: "passed" }, …], snapshots }</span></code></pre>
+    </details>
   </div>
 </section>
 
 <section class="band" id="reports" aria-labelledby="reports-h">
   <div class="wrap">
-    <h2 id="reports-h">Conformance reports</h2>
-    <p class="sub">One per template, against WCAG 2.2 level AA. That includes WCAG 2.1 AA, which is what EN 301 549 (the standard the European Accessibility Act points to) asks for. A Hyper Elements <code>Document</code>, made from the template's own <code>check()</code>.</p>
+    <p class="kicker">Reports</p>
+    <h2 id="reports-h">A conformance report for each</h2>
+    <p class="sub">Against WCAG 2.2 AA, which includes the WCAG 2.1 AA the Act asks for: what passed, and what a person confirms.</p>
     <ul class="reports">{{REPORT_LINKS}}</ul>
-    <p class="muted" style="margin-top:18px;font-size:15px">Automated checks find many barriers, not all of them. That's why each report says which criteria a person confirms: the words, the images, and what's said about time limits. Readable's templates are written to meet those too.</p>
   </div>
 </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>Readable is an entry to the <a href="https://github.com/hyper-elements/hyper-elements">Hyper Elements</a> template challenge. MIT licensed. Fernhill is a made-up shop. The screen reader on this page is a model of how NVDA and VoiceOver read email HTML, spoken by your browser's own voices. It isn't a recording of either. <a href="{{REPO_URL}}">Source and run instructions</a>.</p>
+    <p>An entry to the <a href="https://github.com/hyper-elements/hyper-elements">Hyper Elements</a> template challenge. MIT licensed. Fernhill is a made-up shop.</p>
+    <p><a href="{{REPO_URL}}">Source and run instructions</a></p>
   </div>
 </footer>
 <div id="toast" role="status" aria-live="polite"></div>
