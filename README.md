@@ -4,7 +4,7 @@
 
 **Live: [readable-email.vercel.app](https://readable-email.vercel.app).** Pick an email and press **Listen** to hear it the way a screen reader reads it, with each element highlighted as it's read. Switch between the typical version and Readable's, see it as someone with a colour vision deficiency, low vision or a 320 px phone would, or **paste your own email's HTML** and check it.
 
-![The Readable site: what it is in two sentences, and what a screen reader says for a typical order confirmation and for Readable's](docs/site.png)
+![The Readable site: the headline and what Readable is, above the typical order confirmation and what a screen reader says about it](docs/site.png)
 
 Since 28 June 2025, the European Accessibility Act requires online shops in the EU to make their services accessible, and the emails customers get are part of them. Most order confirmations, shipping updates and password resets still fail: grey small print, "click here", a sign-in code read aloud as "four hundred eighty-two thousand…", a banner image saying "THANK YOU!" with the alt text `banner_final_v2.png`. Nobody notices, because nobody on the team hears them the way a screen reader user does.
 

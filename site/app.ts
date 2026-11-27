@@ -48,7 +48,8 @@ const sourceOf = (rule: string) => (OWN.has(rule) ? "Readable" : LINT.has(rule) 
 type Version = "before" | "after";
 const state = {
   slug: data.templates[0]!.slug as string,
-  version: "after" as Version,
+  // The typical version first: hear the problem, then switch to the fix.
+  version: "before" as Version,
   locale: "en",
   sim: "none",
   rotor: "all",
@@ -255,11 +256,12 @@ function renderTranscript() {
     .join("");
   const count = (k: string) => lines.filter((l) => l.kind === k).length;
   const problems = lines.filter((l) => l.problem).length;
+  const n = (k: number, one: string, many: string) => `${k} ${k === 1 ? one : many}`;
   $("#rotor-note").textContent =
-    state.rotor === "heading" ? (count("heading") ? `Screen reader users press H to jump between these ${count("heading")} headings.` : "No headings: there's nothing to jump to. Everything has to be heard in order.")
+    state.rotor === "heading" ? (count("heading") ? `Screen reader users press H to jump between ${count("heading") === 1 ? "headings: this email has one" : `these ${count("heading")} headings`}.` : "No headings: there's nothing to jump to. Everything has to be heard in order.")
     : state.rotor === "link" ? `The links list, as a screen reader shows it: each link by its words alone, out of context.`
-    : state.rotor === "problem" ? (problems ? `${problems} things a listener stumbles on.` : "Nothing a listener stumbles on.")
-    : `${lines.length} things to listen to, ${count("heading")} headings, ${count("link")} links.`;
+    : state.rotor === "problem" ? (problems ? `${n(problems, "thing", "things")} a listener stumbles on.` : "Nothing a listener stumbles on.")
+    : `${n(lines.length, "thing", "things")} to listen to: ${n(count("heading"), "heading", "headings")}, ${n(count("link"), "link", "links")}.`;
   if (!shown.length) transcript.innerHTML = `<li><button type="button" disabled><span class="k">—</span><span>Nothing to show.</span></button></li>`;
 }
 transcript.addEventListener("click", (e) => {

@@ -106,7 +106,7 @@ const ruleRows = RULES.map(
   (r) =>
     `<tr><th scope="row"><code>${r.id}</code></th><td data-label="WCAG">${r.wcag.join(", ")} <span class="muted">${r.level}</span></td><td data-label="What it finds">${esc(r.summary)}<details><summary>Why it matters</summary><p>${esc(r.why)}</p></details></td></tr>`,
 ).join("");
-const reportLinks = templates.map((t) => `<li><a href="/reports/${t.slug}.pdf"><b>${esc(t.label)}</b><span>PDF · ${t.ruleCount} rules · ${t.criteria.length} criteria</span></a></li>`).join("");
+const reportLinks = templates.map((t) => `<li><a href="/reports/${t.slug}.pdf"><b>${esc(t.label)}</b><span>${t.ruleCount} rules · ${t.criteria.length} criteria</span></a></li>`).join("");
 
 let html = await readFile("site/index.html", "utf8");
 const values: Record<string, string> = {
