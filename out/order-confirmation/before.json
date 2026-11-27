@@ -1,0 +1,202 @@
+[
+  {
+    "code": "email/lint-lang",
+    "severity": "warning",
+    "message": "The Email has no lang, so screen readers guess its language",
+    "path": "root.props.lang",
+    "fix": "give the root a lang (\"en\", \"fr\")",
+    "see": "https://www.hyperelements.dev/docs/lint#lang"
+  },
+  {
+    "code": "email/lint-preview-text",
+    "severity": "info",
+    "message": "The Email's previewText is 5 characters (\"Order\"): inboxes fill the rest with its first words",
+    "path": "root.props.previewText",
+    "fix": "give the Email a previewText of 30 characters or more",
+    "see": "https://www.hyperelements.dev/docs/lint#preview-text"
+  },
+  {
+    "code": "email/lint-alt-text",
+    "severity": "info",
+    "message": "The image's alt, \"logo\", says nothing about what it shows",
+    "path": "root.children[0].children[0].props.alt",
+    "fix": "say what the image shows (\"Tarn's logo\", \"A blue bowl\"), or leave alt empty if it's only decoration",
+    "see": "https://www.hyperelements.dev/docs/lint#alt-text"
+  },
+  {
+    "code": "email/lint-alt-text",
+    "severity": "info",
+    "message": "The image's alt, \"banner_final_v2.png\", says nothing about what it shows",
+    "path": "root.children[1].children[0].props.alt",
+    "fix": "say what the image shows (\"Tarn's logo\", \"A blue bowl\"), or leave alt empty if it's only decoration",
+    "see": "https://www.hyperelements.dev/docs/lint#alt-text"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 2.93:1 against its background (#ff5c8a on #ffffff): large text needs 3:1",
+    "path": "root.children[2].children[0]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 2.64:1 against its background (#9aa0a6 on #ffffff): body text needs 4.5:1",
+    "path": "root.children[2].children[1]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-text-size",
+    "severity": "info",
+    "message": "This text is 13px, under 14px",
+    "path": "root.children[2].children[1]",
+    "fix": "make it 14px or larger, on phones at least (style.mobile.fontSize)",
+    "see": "https://www.hyperelements.dev/docs/lint#text-size"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 2.64:1 against its background (#9aa0a6 on #ffffff): body text needs 4.5:1",
+    "path": "root.children[2].children[2]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-text-size",
+    "severity": "info",
+    "message": "This text is 12px, under 14px",
+    "path": "root.children[2].children[2]",
+    "fix": "make it 14px or larger, on phones at least (style.mobile.fontSize)",
+    "see": "https://www.hyperelements.dev/docs/lint#text-size"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 2.64:1 against its background (#9aa0a6 on #ffffff): body text needs 4.5:1",
+    "path": "root.children[2].children[4].children[0].children[0]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-link-text",
+    "severity": "warning",
+    "message": "The Link says \"click here\": a screen reader lists links by their words alone",
+    "path": "root.children[2].children[5].children[1]",
+    "fix": "say where it goes (\"Confirm your email\"), or give it an aria-label",
+    "see": "https://www.hyperelements.dev/docs/lint#link-text"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 1.51:1 against its background (#ffffff on #ffc2d1): body text needs 4.5:1",
+    "path": "root.children[2].children[6]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-emoji",
+    "severity": "warning",
+    "message": "A screen reader reads this heading as \"party popper, Order Confirmed! party popper\"",
+    "path": "root.children[2].children[0]",
+    "fix": "Leave emoji out of headings, buttons and links, and use few in text.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#emoji"
+  },
+  {
+    "code": "email/lint-code-readout",
+    "severity": "warning",
+    "message": "\"100204816\" is read as one number, not as digits: write it as \"100 204 816\"",
+    "path": "root.children[2].children[1]",
+    "fix": "Group the digits with spaces (482 913) so they're read one by one, and the reader can keep their place.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#code-readout"
+  },
+  {
+    "code": "email/lint-justified",
+    "severity": "warning",
+    "message": "This text is justified: align it to the start",
+    "path": "root.children[2].children[1]",
+    "fix": "Align text to the start (left, or right in a right-to-left language).",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#justified"
+  },
+  {
+    "code": "email/lint-line-height",
+    "severity": "warning",
+    "message": "Its line height is 1.30 times the font size: make it 1.5",
+    "path": "root.children[2].children[1]",
+    "fix": "Set lineHeight to 1.5 for body text.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#line-height"
+  },
+  {
+    "code": "email/lint-all-caps",
+    "severity": "info",
+    "message": "35 letters in capitals: write it in sentence case",
+    "path": "root.children[2].children[2]",
+    "fix": "Write it in sentence case, and use weight or size for emphasis.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#all-caps"
+  },
+  {
+    "code": "email/lint-table-header",
+    "severity": "warning",
+    "message": "This table's 4 rows have no header: a screen reader can't say what each column is",
+    "path": "root.children[2].children[3]",
+    "fix": "Make the first TableRow a header (`<TableRow header>`): Hyper Elements writes it as <th scope=\"col\">.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#table-header"
+  },
+  {
+    "code": "email/lint-reading-order",
+    "severity": "warning",
+    "message": "This Row is dir=\"rtl\" in a ltr email: its columns are read in the opposite order to how they're shown",
+    "path": "root.children[2].children[4]",
+    "fix": "Put the columns in the order they should be read and drop the Row's dir; Hyper Elements stacks them in that order on phones.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#reading-order"
+  },
+  {
+    "code": "email/lint-line-height",
+    "severity": "warning",
+    "message": "Its line height is 1.30 times the font size: make it 1.5",
+    "path": "root.children[2].children[4].children[0].children[0]",
+    "fix": "Set lineHeight to 1.5 for body text.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#line-height"
+  },
+  {
+    "code": "email/lint-link-distinct",
+    "severity": "warning",
+    "message": "This link isn't underlined and its colour is 1.00:1 against the text around it: someone who can't see the difference can't find it",
+    "path": "root.children[2].children[5].children[1]",
+    "fix": "Underline links in running text (the default), or make the colour difference at least 3:1.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#link-distinct"
+  },
+  {
+    "code": "email/lint-target-size",
+    "severity": "warning",
+    "message": "This button is about 75×19 px: a tap target needs at least 24×24 px, and 44 px tall is better on a phone",
+    "path": "root.children[2].children[6]",
+    "fix": "Give the button padding so it's at least 24 px tall and wide; 44 px is better on phones.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#target-size"
+  },
+  {
+    "code": "email/lint-non-text-contrast",
+    "severity": "warning",
+    "message": "This button's background (#ffc2d1) is 1.51:1 against what's behind it (#ffffff): its edge needs 3:1, or a border that is",
+    "path": "root.children[2].children[6]",
+    "fix": "Darken the button's background, or give it a border at least 3:1 against the background.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#non-text-contrast"
+  },
+  {
+    "code": "email/lint-layout-table",
+    "severity": "warning",
+    "message": "1 table has no header cells and no role=\"presentation\": a screen reader announces it as a data table",
+    "path": "root.children[4]",
+    "fix": "Use Rows and Columns (Hyper Elements marks their tables role=\"presentation\"), or add the role to the table in an Html block.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#layout-table"
+  },
+  {
+    "code": "email/lint-headings",
+    "severity": "warning",
+    "message": "The first heading is level 3: start with one level-1 heading",
+    "path": "root.children[2].children[0]",
+    "fix": "Start with one level-1 Heading saying what the email is about, and use Headings for its sections.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#headings"
+  }
+]

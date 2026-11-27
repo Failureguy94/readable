@@ -1,0 +1,31 @@
+[Fernhill]
+
+RÉINITIALISER VOTRE MOT DE PASSE
+
+Quelqu'un, sans doute vous, a demandé à réinitialiser le mot de passe de amira@example.com. Saisissez ce code sur la page de réinitialisation :
+
+Votre code
+
+482 913
+
+Le code est valable 15 minutes, jusqu'à 14:30 CET. S'il expire, vous pouvez en demander un nouveau sur la page de connexion.
+
+Ou réinitialisez-le en une étape avec ce bouton :
+
+Réinitialiser votre mot de passe (https://fernhill.example/reset?token=q8Xk2mVd9TzLp4Ra)
+
+VOUS N'AVEZ RIEN DEMANDÉ ?
+
+Vous pouvez ignorer cet e-mail. Votre mot de passe ne change pas, et personne ne peut le modifier sans ce code.
+
+BESOIN D'AIDE ?
+
+Répondez à cet e-mail ou écrivez à help@fernhill.example (mailto:help@fernhill.example). Nous répondons sous un jour ouvré.
+
+Nous ne vous demanderons jamais votre mot de passe ni votre carte bancaire par e-mail.
+
+---
+
+Vous recevez cet e-mail car il concerne votre compte ou votre commande Fernhill. Il est envoyé même si vous êtes désabonné de notre newsletter.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

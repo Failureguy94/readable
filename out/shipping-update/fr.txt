@@ -1,0 +1,42 @@
+[Fernhill]
+
+VOTRE COMMANDE EST EN ROUTE
+
+DHL a pris en charge votre colis et prévoit de le livrer le mercredi 2 décembre.
+
+SUIVI DE LIVRAISON
+
+1. Commandé (fait)
+2. Expédié (en cours)
+3. En cours de livraison (à venir)
+4. Livré (à venir)
+
+Transporteur
+
+DHL
+
+Numéro de commande
+
+FH-20481
+
+Numéro de suivi
+
+0034 0434 1610 9401 5902
+
+Suivre votre colis sur le site de DHL (https://www.dhl.de/en/privatkunden/pakete-empfangen/verfolgen.html?piececode=00340434161094015902)
+
+DANS CE COLIS
+
+- Linen bedding set, sage, double
+- Stoneware mug, oat (2)
+- Beeswax candle, large
+
+BESOIN D'AIDE ?
+
+Répondez à cet e-mail ou écrivez à help@fernhill.example (mailto:help@fernhill.example). Nous répondons sous un jour ouvré.
+
+---
+
+Vous recevez cet e-mail car il concerne votre compte ou votre commande Fernhill. Il est envoyé même si vous êtes désabonné de notre newsletter.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

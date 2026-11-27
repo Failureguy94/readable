@@ -1,0 +1,39 @@
+[Fernhill]
+
+NOUVELLE CONNEXION À VOTRE COMPTE
+
+Votre compte amira@example.com vient d'être utilisé sur un appareil que nous ne connaissons pas.
+
+Appareil
+
+Firefox on Windows
+
+Lieu (approximatif)
+
+Lyon, France
+
+Heure
+
+27 novembre 2026, 09:12 CET
+
+C'ÉTAIT VOUS ?
+
+Alors vous n'avez rien à faire.
+
+CE N'ÉTAIT PAS VOUS ?
+
+Changez votre mot de passe maintenant. Nous déconnecterons tous les autres appareils.
+
+Sécuriser votre compte (https://fernhill.example/account/security)
+
+BESOIN D'AIDE ?
+
+Répondez à cet e-mail ou écrivez à help@fernhill.example (mailto:help@fernhill.example). Nous répondons sous un jour ouvré.
+
+Nous ne vous demanderons jamais votre mot de passe ni votre carte bancaire par e-mail.
+
+---
+
+Vous recevez cet e-mail car il concerne votre compte ou votre commande Fernhill. Il est envoyé même si vous êtes désabonné de notre newsletter.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

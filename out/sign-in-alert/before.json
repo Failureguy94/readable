@@ -1,0 +1,90 @@
+[
+  {
+    "code": "email/lint-lang",
+    "severity": "warning",
+    "message": "The Email has no lang, so screen readers guess its language",
+    "path": "root.props.lang",
+    "fix": "give the root a lang (\"en\", \"fr\")",
+    "see": "https://www.hyperelements.dev/docs/lint#lang"
+  },
+  {
+    "code": "email/lint-preview-text",
+    "severity": "info",
+    "message": "The Email's previewText is 14 characters (\"Security alert\"): inboxes fill the rest with its first words",
+    "path": "root.props.previewText",
+    "fix": "give the Email a previewText of 30 characters or more",
+    "see": "https://www.hyperelements.dev/docs/lint#preview-text"
+  },
+  {
+    "code": "email/lint-alt-text",
+    "severity": "info",
+    "message": "The image's alt, \"logo\", says nothing about what it shows",
+    "path": "root.children[0].children[0].props.alt",
+    "fix": "say what the image shows (\"Tarn's logo\", \"A blue bowl\"), or leave alt empty if it's only decoration",
+    "see": "https://www.hyperelements.dev/docs/lint#alt-text"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 3.26:1 against its background (#ff4d4f on #ffffff): body text needs 4.5:1",
+    "path": "root.children[1].children[0]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 3.26:1 against its background (#ff4d4f on #ffffff): body text needs 4.5:1",
+    "path": "root.children[1].children[2]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-link-text",
+    "severity": "warning",
+    "message": "The Link says \"Click here\": a screen reader lists links by their words alone",
+    "path": "root.children[1].children[2].children[1]",
+    "fix": "say where it goes (\"Confirm your email\"), or give it an aria-label",
+    "see": "https://www.hyperelements.dev/docs/lint#link-text"
+  },
+  {
+    "code": "email/lint-line-height",
+    "severity": "warning",
+    "message": "Its line height is 1.10 times the font size: make it 1.5",
+    "path": "root.children[1].children[1]",
+    "fix": "Set lineHeight to 1.5 for body text.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#line-height"
+  },
+  {
+    "code": "email/lint-centered-text",
+    "severity": "info",
+    "message": "A 281-character paragraph is centred: align it to the start",
+    "path": "root.children[1].children[1]",
+    "fix": "Centre a short line, if anything; align paragraphs to the start.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#centered-text"
+  },
+  {
+    "code": "email/lint-link-distinct",
+    "severity": "warning",
+    "message": "This link isn't underlined and its colour is 1.00:1 against the text around it: someone who can't see the difference can't find it",
+    "path": "root.children[1].children[2].children[1]",
+    "fix": "Underline links in running text (the default), or make the colour difference at least 3:1.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#link-distinct"
+  },
+  {
+    "code": "email/lint-layout-table",
+    "severity": "warning",
+    "message": "1 table has no header cells and no role=\"presentation\": a screen reader announces it as a data table",
+    "path": "root.children[3]",
+    "fix": "Use Rows and Columns (Hyper Elements marks their tables role=\"presentation\"), or add the role to the table in an Html block.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#layout-table"
+  },
+  {
+    "code": "email/lint-headings",
+    "severity": "warning",
+    "message": "The email has no headings: a screen reader user can't jump to what matters",
+    "path": "root",
+    "fix": "Start with one level-1 Heading saying what the email is about, and use Headings for its sections.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#headings"
+  }
+]

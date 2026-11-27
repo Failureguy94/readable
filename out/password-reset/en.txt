@@ -1,0 +1,31 @@
+[Fernhill]
+
+RESET YOUR PASSWORD
+
+Someone, hopefully you, asked to reset the password for amira@example.com. Enter this code on the reset page:
+
+Your code
+
+482 913
+
+The code works for 15 minutes, until 14:30 CET. If it runs out, you can ask for a new one on the sign-in page.
+
+Or reset it in one step with this button:
+
+Reset your password (https://fernhill.example/reset?token=q8Xk2mVd9TzLp4Ra)
+
+DIDN'T ASK FOR THIS?
+
+You can ignore this email. Your password stays the same, and no one can change it without this code.
+
+NEED HELP?
+
+Reply to this email or write to help@fernhill.example (mailto:help@fernhill.example). We answer within one working day.
+
+We'll never ask for your password or card details by email.
+
+---
+
+You're getting this email because it's about your Fernhill account or order. It's sent even if you've turned off our newsletter.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

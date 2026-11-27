@@ -1,0 +1,90 @@
+[
+  {
+    "code": "email/lint-lang",
+    "severity": "warning",
+    "message": "The Email has no lang, so screen readers guess its language",
+    "path": "root.props.lang",
+    "fix": "give the root a lang (\"en\", \"fr\")",
+    "see": "https://www.hyperelements.dev/docs/lint#lang"
+  },
+  {
+    "code": "email/lint-preview-text",
+    "severity": "info",
+    "message": "The Email has no previewText, so inboxes show its first words after the subject",
+    "path": "root.props.previewText",
+    "fix": "give the Email a previewText of 30 characters or more",
+    "see": "https://www.hyperelements.dev/docs/lint#preview-text"
+  },
+  {
+    "code": "email/lint-alt-text",
+    "severity": "info",
+    "message": "The image's alt, \"logo\", says nothing about what it shows",
+    "path": "root.children[0].children[0].props.alt",
+    "fix": "say what the image shows (\"Tarn's logo\", \"A blue bowl\"), or leave alt empty if it's only decoration",
+    "see": "https://www.hyperelements.dev/docs/lint#alt-text"
+  },
+  {
+    "code": "email/lint-contrast",
+    "severity": "warning",
+    "message": "This text is 2.64:1 against its background (#9aa0a6 on #ffffff): body text needs 4.5:1",
+    "path": "root.children[1].children[3]",
+    "fix": "darken the text or lighten the background (or the reverse) until it reaches the ratio",
+    "see": "https://www.hyperelements.dev/docs/lint#contrast"
+  },
+  {
+    "code": "email/lint-text-size",
+    "severity": "info",
+    "message": "This text is 12px, under 14px",
+    "path": "root.children[1].children[3]",
+    "fix": "make it 14px or larger, on phones at least (style.mobile.fontSize)",
+    "see": "https://www.hyperelements.dev/docs/lint#text-size"
+  },
+  {
+    "code": "email/lint-link-text",
+    "severity": "warning",
+    "message": "The Button says \"Click here\": a screen reader lists links by their words alone",
+    "path": "root.children[1].children[4]",
+    "fix": "say where it goes (\"Confirm your email\"), or give it an aria-label",
+    "see": "https://www.hyperelements.dev/docs/lint#link-text"
+  },
+  {
+    "code": "email/lint-code-readout",
+    "severity": "warning",
+    "message": "\"482913\" is read as one number, not as digits: write it as \"482 913\"",
+    "path": "root.children[1].children[2]",
+    "fix": "Group the digits with spaces (482 913) so they're read one by one, and the reader can keep their place.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#code-readout"
+  },
+  {
+    "code": "email/lint-line-height",
+    "severity": "warning",
+    "message": "Its line height is 1.30 times the font size: make it 1.5",
+    "path": "root.children[1].children[3]",
+    "fix": "Set lineHeight to 1.5 for body text.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#line-height"
+  },
+  {
+    "code": "email/lint-target-size",
+    "severity": "warning",
+    "message": "This button is about 80×22 px: a tap target needs at least 24×24 px, and 44 px tall is better on a phone",
+    "path": "root.children[1].children[4]",
+    "fix": "Give the button padding so it's at least 24 px tall and wide; 44 px is better on phones.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#target-size"
+  },
+  {
+    "code": "email/lint-layout-table",
+    "severity": "warning",
+    "message": "1 table has no header cells and no role=\"presentation\": a screen reader announces it as a data table",
+    "path": "root.children[3]",
+    "fix": "Use Rows and Columns (Hyper Elements marks their tables role=\"presentation\"), or add the role to the table in an Html block.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#layout-table"
+  },
+  {
+    "code": "email/lint-headings",
+    "severity": "warning",
+    "message": "The email has no headings: a screen reader user can't jump to what matters",
+    "path": "root",
+    "fix": "Start with one level-1 Heading saying what the email is about, and use Headings for its sections.",
+    "see": "https://github.com/Failureguy94/readable/blob/main/docs/rules.md#headings"
+  }
+]

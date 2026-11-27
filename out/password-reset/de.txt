@@ -1,0 +1,31 @@
+[Fernhill]
+
+PASSWORT ZURÜCKSETZEN
+
+Jemand, hoffentlich Sie, möchte das Passwort für amira@example.com zurücksetzen. Geben Sie diesen Code auf der Seite ein:
+
+Ihr Code
+
+482 913
+
+Der Code gilt 15 Minuten, bis 14:30 CET. Ist er abgelaufen, können Sie auf der Anmeldeseite einen neuen anfordern.
+
+Oder setzen Sie es mit dieser Schaltfläche in einem Schritt zurück:
+
+Passwort zurücksetzen (https://fernhill.example/reset?token=q8Xk2mVd9TzLp4Ra)
+
+NICHT VON IHNEN ANGEFORDERT?
+
+Dann können Sie diese E-Mail ignorieren. Ihr Passwort bleibt unverändert, und ohne diesen Code kann es niemand ändern.
+
+BRAUCHEN SIE HILFE?
+
+Antworten Sie auf diese E-Mail oder schreiben Sie an help@fernhill.example (mailto:help@fernhill.example). Wir antworten innerhalb eines Werktags.
+
+Wir fragen per E-Mail nie nach Ihrem Passwort oder Ihren Kartendaten.
+
+---
+
+Sie erhalten diese E-Mail, weil es um Ihr Fernhill-Konto oder Ihre Bestellung geht. Sie kommt auch, wenn Sie unseren Newsletter abbestellt haben.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

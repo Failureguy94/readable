@@ -1,0 +1,39 @@
+[Fernhill]
+
+NEUE ANMELDUNG BEI IHREM KONTO
+
+Bei Ihrem Konto amira@example.com hat sich gerade ein Gerät angemeldet, das wir noch nicht kennen.
+
+Gerät
+
+Firefox on Windows
+
+Ort (ungefähr)
+
+Lyon, France
+
+Zeit
+
+27. November 2026, 09:12 CET
+
+WAREN SIE DAS?
+
+Dann müssen Sie nichts tun.
+
+NICHT SIE?
+
+Ändern Sie jetzt Ihr Passwort. Wir melden alle anderen Geräte ab, damit niemand angemeldet bleibt.
+
+Konto schützen (https://fernhill.example/account/security)
+
+BRAUCHEN SIE HILFE?
+
+Antworten Sie auf diese E-Mail oder schreiben Sie an help@fernhill.example (mailto:help@fernhill.example). Wir antworten innerhalb eines Werktags.
+
+Wir fragen per E-Mail nie nach Ihrem Passwort oder Ihren Kartendaten.
+
+---
+
+Sie erhalten diese E-Mail, weil es um Ihr Fernhill-Konto oder Ihre Bestellung geht. Sie kommt auch, wenn Sie unseren Newsletter abbestellt haben.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

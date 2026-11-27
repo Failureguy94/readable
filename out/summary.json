@@ -1,0 +1,178 @@
+{
+  "date": "27 November 2026",
+  "templates": [
+    {
+      "slug": "order-confirmation",
+      "label": "Order confirmation",
+      "valid": true,
+      "rules": 32,
+      "locales": 4,
+      "parity": true,
+      "criteria": {
+        "pass": 11,
+        "review": 8,
+        "fail": 0
+      },
+      "before": {
+        "findings": 25,
+        "rules": [
+          "lang",
+          "preview-text",
+          "alt-text",
+          "contrast",
+          "text-size",
+          "link-text",
+          "emoji",
+          "code-readout",
+          "justified",
+          "line-height",
+          "all-caps",
+          "table-header",
+          "reading-order",
+          "link-distinct",
+          "target-size",
+          "non-text-contrast",
+          "layout-table",
+          "headings"
+        ]
+      },
+      "clients": {
+        "previews": [
+          "outlook.html",
+          "gmail.html",
+          "gmail.mac.html",
+          "apple-mail.html",
+          "apple-mail.iphone.html",
+          "apple-mail.dark.html",
+          "apple-mail.iphone.dark.html"
+        ],
+        "findings": 0
+      }
+    },
+    {
+      "slug": "shipping-update",
+      "label": "Shipping update",
+      "valid": true,
+      "rules": 32,
+      "locales": 4,
+      "parity": true,
+      "criteria": {
+        "pass": 11,
+        "review": 8,
+        "fail": 0
+      },
+      "before": {
+        "findings": 21,
+        "rules": [
+          "lang",
+          "preview-text",
+          "alt-text",
+          "contrast",
+          "text-size",
+          "link-text",
+          "emoji",
+          "code-readout",
+          "line-height",
+          "link-distinct",
+          "target-size",
+          "non-text-contrast",
+          "layout-table",
+          "headings"
+        ]
+      },
+      "clients": {
+        "previews": [
+          "outlook.html",
+          "gmail.html",
+          "gmail.mac.html",
+          "apple-mail.html",
+          "apple-mail.iphone.html",
+          "apple-mail.dark.html",
+          "apple-mail.iphone.dark.html"
+        ],
+        "findings": 0
+      }
+    },
+    {
+      "slug": "password-reset",
+      "label": "Password reset",
+      "valid": true,
+      "rules": 32,
+      "locales": 4,
+      "parity": true,
+      "criteria": {
+        "pass": 11,
+        "review": 8,
+        "fail": 0
+      },
+      "before": {
+        "findings": 11,
+        "rules": [
+          "lang",
+          "preview-text",
+          "alt-text",
+          "contrast",
+          "text-size",
+          "link-text",
+          "code-readout",
+          "line-height",
+          "target-size",
+          "layout-table",
+          "headings"
+        ]
+      },
+      "clients": {
+        "previews": [
+          "outlook.html",
+          "gmail.html",
+          "gmail.mac.html",
+          "apple-mail.html",
+          "apple-mail.iphone.html",
+          "apple-mail.dark.html",
+          "apple-mail.iphone.dark.html"
+        ],
+        "findings": 0
+      }
+    },
+    {
+      "slug": "sign-in-alert",
+      "label": "New sign-in alert",
+      "valid": true,
+      "rules": 32,
+      "locales": 4,
+      "parity": true,
+      "criteria": {
+        "pass": 11,
+        "review": 8,
+        "fail": 0
+      },
+      "before": {
+        "findings": 11,
+        "rules": [
+          "lang",
+          "preview-text",
+          "alt-text",
+          "contrast",
+          "link-text",
+          "line-height",
+          "centered-text",
+          "link-distinct",
+          "layout-table",
+          "headings"
+        ]
+      },
+      "clients": {
+        "previews": [
+          "outlook.html",
+          "gmail.html",
+          "gmail.mac.html",
+          "apple-mail.html",
+          "apple-mail.iphone.html",
+          "apple-mail.dark.html",
+          "apple-mail.iphone.dark.html"
+        ],
+        "findings": 0
+      }
+    }
+  ]
+}

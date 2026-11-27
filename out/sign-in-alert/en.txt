@@ -1,0 +1,39 @@
+[Fernhill]
+
+NEW SIGN-IN TO YOUR ACCOUNT
+
+Your account amira@example.com was just signed in to from a device we haven't seen before.
+
+Device
+
+Firefox on Windows
+
+Location (approximate)
+
+Lyon, France
+
+Time
+
+November 27, 2026, 09:12 CET
+
+WAS THIS YOU?
+
+Then you don't need to do anything.
+
+NOT YOU?
+
+Change your password now. We'll sign out every other device, so whoever it was can't stay signed in.
+
+Secure your account (https://fernhill.example/account/security)
+
+NEED HELP?
+
+Reply to this email or write to help@fernhill.example (mailto:help@fernhill.example). We answer within one working day.
+
+We'll never ask for your password or card details by email.
+
+---
+
+You're getting this email because it's about your Fernhill account or order. It's sent even if you've turned off our newsletter.
+
+Fernhill Goods GmbH · Lindenstraße 12 · 10969 Berlin · Germany

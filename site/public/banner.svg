@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="300" viewBox="0 0 1080 300">
+  <rect width="1080" height="300" fill="#ffe4ec"/>
+  <circle cx="90" cy="70" r="26" fill="#ff8fab"/><circle cx="990" cy="230" r="34" fill="#ffc2d1"/><circle cx="960" cy="60" r="14" fill="#ff8fab"/><circle cx="140" cy="240" r="18" fill="#ffc2d1"/>
+  <text x="540" y="140" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="78" fill="#ff5c8a">THANK YOU!</text>
+  <text x="540" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff" stroke="#ff8fab" stroke-width="1">YOUR ORDER IS CONFIRMED</text>
+</svg>
