@@ -3,13 +3,35 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Every version package.json's engines allows.
+        node: [20, 22, 24]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
+      - run: npm run audit
       - run: npm run site
+
+  # The emails, plain text and rule docs in out/ and docs/ are committed, so they can be read on GitHub and Vercel can
+  # deploy them without Chrome. This rebuilds them from the code and fails if what's committed is out of date.
+  fresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+      # Reports carry the day they're printed, and PNGs the Chrome that drew them: everything else must match.
+      - run: git diff --stat --exit-code -- out docs ':(exclude)*.pdf' ':(exclude)out/*/report.html' ':(exclude)out/summary.json'

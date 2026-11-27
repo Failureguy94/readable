@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "Accessible transactional emails for the European Accessibility Act, with a WCAG plugin for Hyper Elements that templates require.",
   "scripts": {
-    "check": "tsx src/check.tsx",
     "test": "tsx src/test.tsx",
-    "build": "tsx src/build.tsx",
-    "audit": "tsx src/audit.tsx",
     "typecheck": "tsc -p .",
-    "site": "tsx site/build.tsx"
+    "audit": "tsx src/audit-cli.ts",
+    "build": "tsx src/build.tsx",
+    "site": "tsx site/build.tsx",
+    "serve": "tsx site/serve.ts",
+    "start": "npm run site && npm run serve"
   },
   "license": "MIT",
   "type": "module",

@@ -18,10 +18,13 @@ FH-20481
 
 ما طلبته
 
-المنتج | الكمية | السعر
-Linen bedding set, sage, double | 1 | ‏١٢٩٫٠٠ €
-Stoneware mug, oat | 2 | ‏٣٦٫٠٠ €
-Beeswax candle, large | 1 | ‏١٨٫٥٠ €
+المنتج | السعر
+Linen bedding set, sage, double
+الكمية: 1 | ‏١٢٩٫٠٠ €
+Stoneware mug, oat
+الكمية: 2 | ‏٣٦٫٠٠ €
+Beeswax candle, large
+الكمية: 1 | ‏١٨٫٥٠ €
 المجموع الفرعي | ‏١٨٣٫٥٠ €
 الشحن | مجاني
 الإجمالي شامل الضريبة | ‏١٨٣٫٥٠ €

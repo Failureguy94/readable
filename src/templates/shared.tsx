@@ -48,7 +48,8 @@ export function Shell(props: { locale: Locale; title: string; preview: string; c
             borderRadius: token("radii.md"),
             border: { width: 1, style: "solid", color: token("colors.border") },
             padding: token("spacing.xl"),
-            mobile: { padding: token("spacing.lg") },
+            // 16 px on a phone, so a 320 px screen still has room for a price on one line.
+            mobile: { padding: token("spacing.md") },
             gap: token("spacing.lg"),
           }}
         >

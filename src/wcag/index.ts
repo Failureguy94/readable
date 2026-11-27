@@ -10,11 +10,12 @@
 import type { ElementsPlugin, PluginDiagnostic, PluginInput, PluginOutput } from "@hyper-elements/react";
 import { lint, type LintOptions } from "@hyper-elements/lint";
 import { RULES, RULE, checkTree, type Finding } from "./rules";
+import { REPO_URL } from "../config";
 
 export { RULES, RULE } from "./rules";
 export type { OwnRule, Level } from "./rules";
 
-export const DOCS = "https://github.com/Failureguy94/readable/blob/main/docs/rules.md";
+export const DOCS = `${REPO_URL}/blob/main/docs/rules.md`;
 
 export interface ReadableOptions extends LintOptions {}
 

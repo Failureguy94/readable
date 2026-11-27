@@ -17,8 +17,10 @@ import { BEFORE } from "./before";
 import { audit } from "./audit";
 import { readable } from "./wcag";
 import { launch } from "./browser";
+import { ASSETS } from "./brand";
+import { buildDate } from "./config";
 
-const today = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(new Date());
+const today = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(buildDate());
 const browser = await launch();
 const tab = await browser.newPage();
 
@@ -31,7 +33,7 @@ for (const name of ["fernhill", "banner"]) {
   await writeFile(`site/public/${name}.png`, await tab.screenshot({ omitBackground: true, clip: { x: 0, y: 0, width: +w!, height: +h! } }));
 }
 // The emails point at the live site for their images; locally, serve them from site/public.
-await tab.route("https://readable-email.vercel.app/**", async (r) => r.fulfill({ body: await readFile("site/public/" + new URL(r.request().url()).pathname.slice(1)), contentType: "image/png" }));
+await tab.route(`${ASSETS}/**`, async (r) => r.fulfill({ body: await readFile("site/public/" + new URL(r.request().url()).pathname.slice(1)), contentType: "image/png" }));
 
 const summary: Record<string, unknown>[] = [];
 for (const { slug, template } of TEMPLATES) {

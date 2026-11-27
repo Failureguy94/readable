@@ -1,8 +1,9 @@
 /**
  * Order confirmation. A screen reader hears: the heading, what happens next, the order's facts as label-value pairs,
  * a table whose every price is announced with its column, and one button that says which order it opens.
+ * Two columns, not three: on a 320 px phone a third column leaves a price too narrow to stay on one line.
  */
-import { Button, Column, Heading, Table, TableCell, TableRow, Text, prop, token } from "@hyper-elements/react";
+import { Button, Column, Heading, LineBreak, Span, Table, TableCell, TableRow, Text, prop, token } from "@hyper-elements/react";
 import { template } from "@hyper-elements/react/template";
 import { BRAND } from "../brand";
 import { COPY, longDate, fullDate, money, dirOf } from "../copy";
@@ -66,7 +67,7 @@ export const OrderConfirmation = template({
     const end = dirOf(l) === "rtl" ? "left" : "right";
     const line = (label: string, value: string, strong = false) => (
       <TableRow>
-        <TableCell colSpan={2} style={{ textAlign: start, fontWeight: strong ? 700 : 400 }}>{label}</TableCell>
+        <TableCell style={{ textAlign: start, fontWeight: strong ? 700 : 400 }}>{label}</TableCell>
         <TableCell style={{ textAlign: end, fontWeight: strong ? 700 : 400 }}>{value}</TableCell>
       </TableRow>
     );
@@ -86,14 +87,16 @@ export const OrderConfirmation = template({
           <Heading level={2}>{t.itemsHeading}</Heading>
           <Table style={{ cellPadding: [10, 4], rowBorder: { width: 1, style: "solid", color: token("colors.border") } }}>
             <TableRow header>
-              <TableCell style={{ ...small, textAlign: start, width: "58%" }}>{t.item}</TableCell>
-              <TableCell style={{ ...small, textAlign: end, width: "18%" }}>{t.qty}</TableCell>
-              <TableCell style={{ ...small, textAlign: end, width: "24%" }}>{t.price}</TableCell>
+              <TableCell style={{ ...small, textAlign: start, width: "64%" }}>{t.item}</TableCell>
+              <TableCell style={{ ...small, textAlign: end, width: "36%" }}>{t.price}</TableCell>
             </TableRow>
             {v.items.map((item, i) => (
               <TableRow key={i}>
-                <TableCell field={`items[${i}].name`} style={{ textAlign: start }}>{item.name}</TableCell>
-                <TableCell field={`items[${i}].quantity`} style={{ textAlign: end }}>{String(item.quantity)}</TableCell>
+                <TableCell field={`items[${i}].name`} style={{ textAlign: start }}>
+                  {item.name}
+                  <LineBreak />
+                  <Span style={{ color: token("colors.muted"), fontSize: 15 }}>{`${t.qty}: ${item.quantity}`}</Span>
+                </TableCell>
                 <TableCell field={`items[${i}].price`} style={{ textAlign: end }}>{fmt(item.price)}</TableCell>
               </TableRow>
             ))}

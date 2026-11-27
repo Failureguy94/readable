@@ -10,6 +10,7 @@ import { LOCALES, type Locale } from "./copy";
 
 const decode = (s: string) =>
   s
+    .replace(/<br\s*\/?>/gi, " ")
     .replace(/<[^>]+>/g, "")
     .replace(/&nbsp;|&#160;/g, " ")
     .replace(/&amp;/g, "&")

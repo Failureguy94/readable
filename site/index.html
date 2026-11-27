@@ -35,16 +35,18 @@ header.top .wrap { display: flex; align-items: center; justify-content: space-be
 nav ul { display: flex; gap: 6px 18px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
 nav a { color: var(--ink); text-decoration: none; padding: 6px 2px; }
 nav a:hover { text-decoration: underline; }
+@media (max-width: 480px) { nav ul { gap: 0 14px; } nav a { font-size: 16px; } }
 
 .hero { padding: 56px 0 40px; }
 .hero .eyebrow { display: inline-block; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 4px 12px; border-radius: 999px; font-size: 15px; }
 .hero h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.08; margin: 18px 0 18px; letter-spacing: -0.01em; max-width: 16ch; }
 .hero p.lead { font-size: 20px; max-width: 62ch; margin: 0 0 14px; }
 .hero p { max-width: 70ch; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 28px 0 26px; padding: 0; list-style: none; }
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 28px 0 26px; padding: 0; list-style: none; }
 .stats li { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
 .stats b { display: block; font-size: 30px; line-height: 1.1; }
 .stats span { color: var(--muted); font-size: 15px; }
+@media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } .stats li:last-child { grid-column: 1 / -1; } }
 .cta { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 18px; border-radius: 10px; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
 .btn.secondary { background: var(--panel); color: var(--accent); }
@@ -64,8 +66,10 @@ textarea { width: 100%; min-height: 180px; font-family: ui-monospace, Menlo, Con
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
 .tabs [role=tab], .seg button { font: inherit; font-size: 15px; font-weight: 700; min-height: 44px; padding: 8px 14px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
 .tabs [role=tab][aria-selected=true] { border-color: var(--ink); background: var(--ink); color: #fff; }
+@media (max-width: 560px) { .tabs { display: grid; grid-template-columns: 1fr 1fr; } .tabs [data-slug=yours] { grid-column: 1 / -1; } }
 .seg { display: inline-flex; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; }
-.seg button { border: 0; border-radius: 0; min-width: 120px; }
+/* 40 px inside a 2 px border: as tall as the selects beside it, so their labels line up. */
+.seg button { border: 0; border-radius: 0; min-width: 120px; min-height: 40px; }
 .seg button[aria-pressed=true] { background: var(--ink); color: #fff; }
 .seg button[data-v=before][aria-pressed=true] { background: var(--bad); }
 .seg button[data-v=after][aria-pressed=true] { background: var(--accent); }
@@ -82,6 +86,7 @@ textarea { width: 100%; min-height: 180px; font-family: ui-monospace, Menlo, Con
 .frame-box iframe { border: 0; background: #fff; width: 640px; max-width: 100%; height: 760px; display: block; box-shadow: 0 0 0 1px var(--line); }
 .frame-box.phone iframe { width: 320px; }
 .frame-box.zoom iframe { width: 640px; }
+@media (max-width: 560px) { .frame-box { padding: 0; } .frame-box iframe { box-shadow: none; } }
 .sim-note { padding: 8px 12px; font-size: 15px; color: var(--muted); border-top: 1px solid var(--line); margin: 0; }
 .links-row { padding: 8px 12px 12px; font-size: 15px; display: flex; gap: 6px 14px; flex-wrap: wrap; }
 
@@ -89,9 +94,11 @@ textarea { width: 100%; min-height: 180px; font-family: ui-monospace, Menlo, Con
 .panel .ptabs [role=tab] { flex: 1 0 auto; font: inherit; font-size: 15px; font-weight: 700; background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 12px 9px; min-height: 48px; cursor: pointer; color: var(--muted); }
 .panel .ptabs [role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
 .panel [role=tabpanel] { padding: 14px; }
+@media (max-width: 480px) { .panel .ptabs { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; } }
 .panel [role=tabpanel][hidden] { display: none; }
 .player { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
 .player .rate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+.player select { min-height: 38px; padding: 4px 8px; font-size: 15px; }
 .rotor { display: flex; gap: 6px; margin: 4px 0 10px; flex-wrap: wrap; }
 .rotor button { font: inherit; font-size: 14px; padding: 4px 10px; min-height: 36px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); cursor: pointer; }
 .rotor button[aria-pressed=true] { border-color: var(--ink); background: var(--ink); color: #fff; }
@@ -129,20 +136,35 @@ pre.plain { white-space: pre-wrap; word-break: break-word; background: var(--cod
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* Reference sections */
-.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid3 { grid-template-columns: minmax(0, 1fr); } }
 .grid3 .card { padding: 18px; }
 .grid3 h3 { margin: 0 0 6px; font-size: 20px; }
 .ruletable { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; font-size: 15.5px; }
 .ruletable th, .ruletable td { padding: 10px 12px; text-align: start; border-bottom: 1px solid var(--line); vertical-align: top; }
-.ruletable th { background: var(--soft); font-size: 14px; }
-.ruletable td:first-child { white-space: nowrap; font-weight: 700; }
+.ruletable thead th { background: var(--soft); font-size: 14px; }
+.ruletable tbody th { white-space: nowrap; }
+.ruletable td[data-label=WCAG] { white-space: nowrap; }
+/* On a phone each rule is a card: its cells one under the other, each with its column's name. */
+@media (max-width: 700px) {
+  .ruletable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ruletable, .ruletable tbody, .ruletable tr, .ruletable th, .ruletable td { display: block; }
+  .ruletable tr { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .ruletable tr:last-child { border-bottom: 0; }
+  .ruletable th, .ruletable td { padding: 0; border: 0; white-space: normal; }
+  .ruletable td::before { content: attr(data-label); display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--muted); }
+}
 .table-scroll { overflow-x: auto; }
 pre.code { background: #16201c; color: #e8efe9; padding: 16px; border-radius: var(--radius); overflow-x: auto; font-size: 14px; line-height: 1.55; margin: 0; }
+pre.code code { background: none; padding: 0; color: inherit; font-size: inherit; }
 pre.code .c { color: #9fb5aa; }
-.reports { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.reports { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .reports { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .reports { grid-template-columns: minmax(0, 1fr); } }
 .reports a { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; text-decoration: none; color: var(--ink); }
 .reports a:hover { border-color: var(--accent); }
 .reports b { display: block; color: var(--accent); }
+.reports span { display: block; margin-top: 2px; color: var(--muted); font-size: 15px; }
 footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--muted); font-size: 15px; }
 #toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
 #toast.show { opacity: 1; }
@@ -168,7 +190,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
         <li><a href="#rules">The rules</a></li>
         <li><a href="#how">How it works</a></li>
         <li><a href="#reports">Reports</a></li>
-        <li><a href="https://github.com/Failureguy94/readable">Code on GitHub</a></li>
+        <li><a href="{{REPO_URL}}">Code on GitHub</a></li>
       </ul>
     </nav>
   </div>
@@ -244,7 +266,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
       </div>
     </div>
 
-    <div class="stage">
+    <div class="stage" id="main-stage" role="tabpanel" aria-labelledby="pick-label">
       <div class="card preview">
         <div class="head">
           <span class="verdict" id="verdict" role="status"></span>
@@ -311,7 +333,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
     <div class="grid3">
       <div class="card">
         <h3>1. A plugin that templates require</h3>
-        <p><code>readable()</code> is a lint plugin. It runs <code>@hyper-elements/lint</code>, adds 13 rules, and describes them the way lint describes its own. So a template requires them in <code>rules.require.lint</code>, and <code>check()</code> fails closed: if a rule finds something, or doesn't run, the email isn't sent.</p>
+        <p><code>readable()</code> is a lint plugin. It runs <code>@hyper-elements/lint</code>, adds {{OWN}} rules, and describes them the way lint describes its own. So a template requires them in <code>rules.require.lint</code>, and <code>check()</code> fails closed: if a rule finds something, or doesn't run, the email isn't sent.</p>
       </div>
       <div class="card">
         <h3>2. Four templates that pass all {{REQUIRED}}</h3>
@@ -323,8 +345,8 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 50px; color: var(--m
       </div>
     </div>
     <h3 style="margin:28px 0 10px">The plugin, in a template</h3>
-<pre class="code"><code><span class="c">// One plugin: lint's 18 rules, and Readable's 13.</span>
-import { readable } from "readable/wcag";
+<pre class="code"><code><span class="c">// One plugin: lint's {{LINT}} rules, and Readable's {{OWN}}.</span>
+import { readable } from "./src/wcag";
 
 export const PasswordReset = template({
   id: "readable.PasswordReset",
@@ -358,7 +380,7 @@ PasswordReset.check(values);  <span class="c">// { valid, rules: [{ rule: "code-
 
 <footer>
   <div class="wrap">
-    <p>Readable is an entry to the <a href="https://github.com/hyper-elements/hyper-elements">Hyper Elements</a> template challenge. MIT licensed. Fernhill is a made-up shop. The screen reader on this page is a model of how NVDA and VoiceOver read email HTML, spoken by your browser's own voices. It isn't a recording of either. <a href="https://github.com/Failureguy94/readable">Source and run instructions</a>.</p>
+    <p>Readable is an entry to the <a href="https://github.com/hyper-elements/hyper-elements">Hyper Elements</a> template challenge. MIT licensed. Fernhill is a made-up shop. The screen reader on this page is a model of how NVDA and VoiceOver read email HTML, spoken by your browser's own voices. It isn't a recording of either. <a href="{{REPO_URL}}">Source and run instructions</a>.</p>
   </div>
 </footer>
 <div id="toast" role="status" aria-live="polite"></div>

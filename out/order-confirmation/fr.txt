@@ -18,10 +18,13 @@ Entre le mardi 1 décembre et le jeudi 3 décembre
 
 VOTRE COMMANDE
 
-Article | Quantité | Prix
-Linen bedding set, sage, double | 1 | 129,00 €
-Stoneware mug, oat | 2 | 36,00 €
-Beeswax candle, large | 1 | 18,50 €
+Article | Prix
+Linen bedding set, sage, double
+Quantité: 1 | 129,00 €
+Stoneware mug, oat
+Quantité: 2 | 36,00 €
+Beeswax candle, large
+Quantité: 1 | 18,50 €
 Sous-total | 183,50 €
 Livraison | Offerte
 Total TTC | 183,50 €

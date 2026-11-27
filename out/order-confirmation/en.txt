@@ -18,10 +18,13 @@ Between Tuesday, December 1 and Thursday, December 3
 
 WHAT YOU ORDERED
 
-Item | Quantity | Price
-Linen bedding set, sage, double | 1 | €129.00
-Stoneware mug, oat | 2 | €36.00
-Beeswax candle, large | 1 | €18.50
+Item | Price
+Linen bedding set, sage, double
+Quantity: 1 | €129.00
+Stoneware mug, oat
+Quantity: 2 | €36.00
+Beeswax candle, large
+Quantity: 1 | €18.50
 Subtotal | €183.50
 Shipping | Free
 Total, including VAT | €183.50

@@ -3,9 +3,10 @@
  * contrast rule, and the button's colours by `non-text-contrast`: a brand that changes them is checked the same way.
  */
 import { defineTheme } from "@hyper-elements/react";
+import { SITE_URL } from "./config";
 
-/** Where the emails' images are served from: the live site. */
-export const ASSETS = "https://readable-email.vercel.app";
+/** Where the emails' images are served from: the live site, or SITE_URL. */
+export const ASSETS = SITE_URL;
 
 export const BRAND = {
   name: "Fernhill",

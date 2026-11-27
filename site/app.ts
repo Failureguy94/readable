@@ -21,7 +21,17 @@ interface Data { templates: TemplateData[]; own: OwnRule[]; lint: LintRule[]; cr
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
-const data: Data = await (await fetch("/data.json")).json();
+const data: Data = await fetch("/data.json")
+  .then((r) => {
+    if (!r.ok) throw new Error(`data.json: ${r.status}`);
+    return r.json();
+  })
+  .catch((e: unknown) => {
+    // Say so on the page, instead of leaving an empty demo.
+    const stage = document.querySelector("#main .wrap");
+    stage?.insertAdjacentHTML("beforeend", `<p class="lang-note" role="alert">The demo couldn't load its emails (${String(e)}). Reload the page to try again.</p>`);
+    throw e;
+  });
 const OWN = new Map(data.own.map((r) => [r.id, r]));
 const LINT = new Map(data.lint.map((r) => [r.id, r]));
 const wcagOf = (rule: string) => data.criteria.filter((c) => c.rules.includes(rule)).map((c) => c.id);
@@ -168,6 +178,7 @@ function applySim() {
 }
 
 const current = () => data.templates.find((t) => t.slug === state.slug);
+let plainFor = "";
 
 function load() {
   reader?.stop();
@@ -197,7 +208,13 @@ function load() {
     const file = state.version === "before" ? "before" : state.locale;
     frame.src = `/emails/${t.slug}/${file}.html`;
     $("#frame-label").textContent = state.version === "before" ? `${t.label}, as usually built` : `${t.label}, ${data.languages[state.locale]}`;
-    fetch(`/emails/${t.slug}/${file}.txt`).then((r) => r.text()).then((txt) => ($("#plain").textContent = txt));
+    const url = `/emails/${t.slug}/${file}.txt`;
+    plainFor = url;
+    // Only the text of the email still shown: a slow answer for one picked earlier is dropped.
+    fetch(url)
+      .then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))))
+      .then((txt) => plainFor === url && ($("#plain").textContent = txt))
+      .catch(() => plainFor === url && ($("#plain").textContent = "The plain-text part couldn't be loaded."));
   }
   renderClientLinks();
 }
@@ -380,7 +397,7 @@ function renderVerdict() {
   const t = current();
   if (state.slug === "yours") {
     v.className = "verdict " + (domFindings.some((f) => f.severity === "warning") ? "bad" : "good");
-    v.textContent = !state.yours ? "Nothing checked yet" : domFindings.length ? `${domFindings.length} problems found` : "No problems found";
+    v.textContent = !state.yours ? "Nothing checked yet" : domFindings.length ? `${domFindings.length} problem${domFindings.length === 1 ? "" : "s"} found` : "No problems found";
   } else if (state.version === "before") {
     v.className = "verdict bad";
     v.textContent = `Typical: ${t!.before.length} problems`;

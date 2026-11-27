@@ -16,6 +16,7 @@ import { CRITERIA } from "../src/criteria";
 import { LANGUAGE } from "../src/copy";
 import { REQUIRED } from "../src/templates/shared";
 import { ASSETS } from "../src/brand";
+import { REPO_URL } from "../src/config";
 
 const dist = "site/dist";
 await rm(dist, { recursive: true, force: true });
@@ -102,9 +103,10 @@ await writeFile(join(dist, "data.json"), JSON.stringify(data));
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const ruleRows = RULES.map(
-  (r) => `<tr><td><code>${r.id}</code></td><td>${r.wcag.join(", ")}<br><span class="muted">${r.level}</span></td><td>${esc(r.summary)}</td><td>${esc(r.why)}</td></tr>`,
+  (r) =>
+    `<tr><th scope="row"><code>${r.id}</code></th><td data-label="WCAG">${r.wcag.join(", ")} <span class="muted">${r.level}</span></td><td data-label="What it finds">${esc(r.summary)}</td><td data-label="Why it matters">${esc(r.why)}</td></tr>`,
 ).join("");
-const reportLinks = templates.map((t) => `<li><a href="/reports/${t.slug}.pdf"><b>${esc(t.label)}</b>PDF, 2 pages · ${t.ruleCount} rules, ${t.criteria.length} criteria</a></li>`).join("");
+const reportLinks = templates.map((t) => `<li><a href="/reports/${t.slug}.pdf"><b>${esc(t.label)}</b><span>PDF · ${t.ruleCount} rules · ${t.criteria.length} criteria</span></a></li>`).join("");
 
 let html = await readFile("site/index.html", "utf8");
 const values: Record<string, string> = {
@@ -113,6 +115,8 @@ const values: Record<string, string> = {
   REQUIRED: String(templates[0]!.ruleCount),
   REQUIRED_LINT: String(REQUIRED.length),
   OWN: String(RULES.length),
+  LINT: String(data.lint.length),
+  REPO_URL: esc(REPO_URL),
   BEFORE: String(beforeTotal),
   RULE_ROWS: ruleRows,
   REPORT_LINKS: reportLinks,

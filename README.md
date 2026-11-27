@@ -64,15 +64,32 @@ Each has a `fix`, a `see` link to [docs/rules.md](docs/rules.md) and the WCAG cr
 
 ## Run it
 
-Node.js 20 or later. `npm run build` prints the reports and draws the PNGs with Chrome or Chromium. It's found automatically, or set `CHROME_PATH`.
+Node.js 20, 22 or 24 (`.nvmrc` says 22; CI runs all three). `npm run build` prints the reports and draws the PNGs with Chrome or Chromium. It's found automatically, or set `CHROME_PATH`.
 
 ```bash
-npm install
+npm ci
 npm test          # every rule both ways, every template in every language, the typical versions refused
+npm run audit     # each template's verdict: required rules, plain text, WCAG criteria (exits 1 if one fails)
 npm run build     # out/<template>/: each email in 4 languages (.html, .txt), report.pdf, before.html, client previews
-npm run site      # the site → site/dist (deployed to Vercel from vercel.json)
+npm run site      # the site → site/dist (Vercel runs this, from vercel.json)
+npm run serve     # site/dist on http://localhost:3000, with the same headers Vercel sends
+npm start         # site, then serve
 npm run typecheck
 ```
+
+### Configuration
+
+Nothing is needed to run it. What changes between deploys comes from the environment, with the live site's values as defaults ([`.env.example`](.env.example), read in [`src/config.ts`](src/config.ts)):
+
+| Variable | What it sets | Default |
+| --- | --- | --- |
+| `SITE_URL` | Where the emails' images are served from | `https://readable-email.vercel.app` |
+| `REPO_URL` | Where each rule's `see` link and the site's links point | this repository |
+| `BUILD_DATE` | The date on the reports (`YYYY-MM-DD`), so a build can be repeated exactly | the day of the build |
+| `CHROME_PATH` | The Chrome or Chromium that prints the reports | found automatically |
+| `PORT` | Where `npm run serve` listens | `3000` |
+
+`out/` and `docs/` are built from the code and committed, so they can be read here and Vercel can deploy without Chrome. CI rebuilds them and fails if what's committed is out of date.
 
 ### Use the plugin in your own templates
 
@@ -106,7 +123,10 @@ src/criteria.ts      WCAG 2.2 criteria for email, and how each is covered
 src/audit.ts         check() in every language, plain-text parity, criteria decided (runs in Node and the browser)
 src/test.tsx         the proof, run in CI (.github/workflows/ci.yml)
 src/build.tsx        emails, reports, client previews, docs/rules.md
-site/                the live site: sr.ts (the screen reader), dom-audit.ts (checks for pasted HTML), app.ts
+src/audit-cli.ts     npm run audit
+src/config.ts        the environment: SITE_URL, REPO_URL, BUILD_DATE
+site/                the live site: sr.ts (the screen reader), dom-audit.ts (checks for pasted HTML), app.ts,
+                     build.tsx (npm run site), serve.ts (npm run serve)
 out/                 the built emails, plain text and reports, committed so you can open them here
 ```
 

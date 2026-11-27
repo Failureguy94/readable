@@ -3,5 +3,5 @@
     "target": "ES2023", "lib": ["ES2023", "DOM", "DOM.Iterable"], "module": "ESNext", "moduleResolution": "Bundler", "jsx": "react-jsx",
     "strict": true, "skipLibCheck": true, "noEmit": true, "types": ["node"]
   },
-  "include": ["src", "site/app.tsx", "site/build.tsx"]
+  "include": ["src", "site/*.ts", "site/*.tsx"]
 }
